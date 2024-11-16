@@ -3,9 +3,7 @@ package by.bsu.fantasy.controller;
 import by.bsu.fantasy.exceptions.TeamNotFoundException;
 import by.bsu.fantasy.model.Team;
 import by.bsu.fantasy.repository.TeamRepository;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -28,5 +26,30 @@ public class TeamController {
         return teamRepository
                 .findById(id)
                 .orElseThrow(() -> new TeamNotFoundException(id));
+    }
+
+    @PostMapping("/teams")
+    public Team createTeam(@RequestBody Team team) {
+        return teamRepository.save(team);
+    }
+
+    @PutMapping("/teams/{id}")
+    public Team updateTeam(@PathVariable Long id, @RequestBody Team team) {
+        return teamRepository
+                .findById(id)
+                .map(t -> {
+                    t.setName(team.getName());
+                    t.setPrice(t.getPrice());
+                    t.setPoints(t.getPoints());
+                    return teamRepository.save(t);
+                })
+                .orElseGet(
+                        () -> teamRepository.save(team)
+                );
+    }
+
+    @DeleteMapping("/teams/{id}")
+    public void deleteTeam(@PathVariable Long id) {
+        teamRepository.deleteById(id);
     }
 }

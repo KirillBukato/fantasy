@@ -3,9 +3,7 @@ package by.bsu.fantasy.controller;
 import by.bsu.fantasy.exceptions.UserNotFoundException;
 import by.bsu.fantasy.model.User;
 import by.bsu.fantasy.repository.UserRepository;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -30,5 +28,29 @@ public class UserController {
                 .orElseThrow(() -> new UserNotFoundException(id));
     }
 
+    @PostMapping("/users")
+    public User createUser(@RequestBody User user) {
+        return userRepository
+                .save(user);
+    }
 
+    @PutMapping("/user/{id}")
+    public User updateUser(@PathVariable Long id, @RequestBody User user) {
+        return userRepository
+                .findById(id)
+                .map(u -> {
+                    u.setName(user.getName());
+                    u.setBalance(user.getBalance());
+                    u.setPoints(user.getPoints());
+                    return userRepository.save(u);
+                })
+                .orElseGet(
+                        () -> userRepository.save(user)
+                );
+    }
+
+    @DeleteMapping("/user/{id}")
+    public void deleteUser(@PathVariable Long id) {
+        userRepository.deleteById(id);
+    }
 }
