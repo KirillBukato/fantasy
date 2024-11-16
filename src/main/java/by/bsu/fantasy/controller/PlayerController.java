@@ -4,13 +4,14 @@ import by.bsu.fantasy.exceptions.PlayerNotFoundException;
 import by.bsu.fantasy.model.Player;
 import by.bsu.fantasy.repository.PlayerRepository;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
 @RestController
 public class PlayerController {
-    private PlayerRepository playerRepository;
+    private final PlayerRepository playerRepository;
 
     public PlayerController(PlayerRepository playerRepository) {
         this.playerRepository = playerRepository;
@@ -23,7 +24,7 @@ public class PlayerController {
     }
 
     @GetMapping("/players/{id}")
-    public Player getPlayerById(Long id) {
+    public Player getPlayerById(@PathVariable Long id) {
         return playerRepository
                 .findById(id)
                 .orElseThrow(() -> new PlayerNotFoundException(id));
