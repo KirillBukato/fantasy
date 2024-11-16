@@ -15,7 +15,7 @@ public class Player {
     private double price;
     private int points;
     //TODO add link to team
-
+    //TODO как то надо хранить список полученных очков
 
     public Player() {}
 
