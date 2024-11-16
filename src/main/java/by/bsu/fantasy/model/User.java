@@ -12,6 +12,7 @@ public class User {
     private String name;
     private Double balance;
     private Integer points;
+    //TODO: add links to picked teams and players
 
     public User() {
 
