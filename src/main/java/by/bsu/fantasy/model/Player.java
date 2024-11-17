@@ -1,11 +1,10 @@
 package by.bsu.fantasy.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @Entity
 @Data
@@ -16,7 +15,14 @@ public class Player {
     private String name;
     private Double price;
     private Integer points;
-    //TODO add link to team
+
+    @ManyToOne
+    @JoinColumn(name = "id", nullable = false)
+    private Team team;
+
+    @ManyToMany(mappedBy = "players")
+    private List<User> users_picked;
+
     //TODO как то надо хранить список полученных очков
 
     public Player(String name, Double price, Integer points) {
