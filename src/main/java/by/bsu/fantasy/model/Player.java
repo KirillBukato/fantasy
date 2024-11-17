@@ -17,7 +17,7 @@ public class Player {
     private Integer points;
 
     @ManyToOne
-    @JoinColumn(name = "id", nullable = false)
+    @JoinColumn(name = "team_id", nullable = false)
     private Team team;
 
     @ManyToMany(mappedBy = "players")
