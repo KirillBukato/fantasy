@@ -1,56 +1,42 @@
 package by.bsu.fantasy.controller;
 
-import by.bsu.fantasy.exceptions.PlayerNotFoundException;
 import by.bsu.fantasy.model.Player;
-import by.bsu.fantasy.repository.PlayerRepository;
+import by.bsu.fantasy.service.PlayerService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 public class PlayerController {
-    private final PlayerRepository playerRepository;
+    private final PlayerService playerService;
 
-    public PlayerController(PlayerRepository playerRepository) {
-        this.playerRepository = playerRepository;
+    public PlayerController(PlayerService playerService) {
+        this.playerService = playerService;
     }
 
     @GetMapping("/players")
     public List<Player> getPlayers() {
-        return playerRepository
-                .findAll();
+        return playerService.getPlayers();
     }
 
     @GetMapping("/players/{id}")
     public Player getPlayerById(@PathVariable Long id) {
-        return playerRepository
-                .findById(id)
-                .orElseThrow(() -> new PlayerNotFoundException(id));
+        return playerService.getPlayerById(id);
     }
 
     @PostMapping("/players")
     public Player addPlayer(@RequestBody Player player) {
-        return playerRepository.save(player);
+        return playerService.addPlayer(player);
     }
 
     @PutMapping("/players/{id}")
     public Player updatePlayer(@PathVariable Long id, @RequestBody Player player) {
-        return playerRepository
-                .findById(id)
-                .map(p -> {
-                    p.setName(player.getName());
-                    p.setPrice(player.getPrice());
-                    p.setPoints(player.getPoints());
-                    return playerRepository.save(p);
-                })
-                .orElseGet(
-                        () -> playerRepository.save(player)
-                );
+        return playerService.updatePlayer(id, player);
     }
 
     @DeleteMapping("/players/{id}")
     public void deletePlayer(@PathVariable Long id) {
-        playerRepository.deleteById(id);
+        playerService.deletePlayer(id);
     }
 
 }

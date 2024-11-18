@@ -1,56 +1,58 @@
 package by.bsu.fantasy.controller;
 
-import by.bsu.fantasy.exceptions.UserNotFoundException;
 import by.bsu.fantasy.model.User;
-import by.bsu.fantasy.repository.UserRepository;
+import by.bsu.fantasy.service.UserPlayerService;
+import by.bsu.fantasy.service.UserService;
+import by.bsu.fantasy.service.UserTeamService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 public class UserController {
-    private final UserRepository userRepository;
+    private final UserService userService;
+    private final UserPlayerService userPlayerService;
+    private final UserTeamService userTeamService;
 
-    public UserController(UserRepository userRepository) {
-        this.userRepository = userRepository;
+    public UserController(UserService userService, UserPlayerService userPlayerService, UserTeamService userTeamService) {
+        this.userService = userService;
+        this.userPlayerService = userPlayerService;
+        this.userTeamService = userTeamService;
     }
 
     @GetMapping("/users")
     public List<User> getUsers() {
-        return userRepository
-                .findAll();
+        return userService.getUsers();
     }
 
     @GetMapping("/user/{id}")
     public User getUserById(@PathVariable Long id) {
-        return userRepository
-                .findById(id)
-                .orElseThrow(() -> new UserNotFoundException(id));
+        return userService.getUserById(id);
     }
 
     @PostMapping("/users")
     public User createUser(@RequestBody User user) {
-        return userRepository
-                .save(user);
+        return userService.createUser(user);
     }
 
     @PutMapping("/user/{id}")
     public User updateUser(@PathVariable Long id, @RequestBody User user) {
-        return userRepository
-                .findById(id)
-                .map(u -> {
-                    u.setName(user.getName());
-                    u.setBalance(user.getBalance());
-                    u.setPoints(user.getPoints());
-                    return userRepository.save(u);
-                })
-                .orElseGet(
-                        () -> userRepository.save(user)
-                );
+        return userService.updateUser(id, user);
     }
 
     @DeleteMapping("/user/{id}")
     public void deleteUser(@PathVariable Long id) {
-        userRepository.deleteById(id);
+        userService.deleteUser(id);
     }
+
+    @PutMapping("/user/{id}/addPlayer/{playerId}")
+    public User addPlayer(@PathVariable Long id, @PathVariable Long playerId) {
+        return userPlayerService.linkPlayerToUser(id, playerId);
+    }
+
+    @PutMapping("/user/{id}/addTeam/{teamId}")
+    public User addTeam(@PathVariable Long id, @PathVariable Long teamId) {
+        return userTeamService.linkTeamToUser(id, teamId);
+    }
+
 }
