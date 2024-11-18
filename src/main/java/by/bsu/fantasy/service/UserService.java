@@ -32,17 +32,8 @@ public class UserService {
     }
 
     public User updateUser(Long id, User user) {
-        return userRepository
-                .findById(id)
-                .map(u -> {
-                    u.setName(user.getName());
-                    u.setBalance(user.getBalance());
-                    u.setPoints(user.getPoints());
-                    return userRepository.save(u);
-                })
-                .orElseGet(
-                        () -> userRepository.save(user)
-                );
+        user.setId(id);
+        return userRepository.save(user);
     }
 
     public void deleteUser(Long id) {

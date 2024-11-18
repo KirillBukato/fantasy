@@ -31,17 +31,8 @@ public class TeamService {
     }
 
     public Team updateTeam(Long id, Team team) {
-        return teamRepository
-                .findById(id)
-                .map(t -> {
-                    t.setName(team.getName());
-                    t.setPrice(t.getPrice());
-                    t.setPoints(t.getPoints());
-                    return teamRepository.save(t);
-                })
-                .orElseGet(
-                        () -> teamRepository.save(team)
-                );
+        team.setId(id);
+        return teamRepository.save(team);
     }
 
     public void deleteTeam(Long id) {

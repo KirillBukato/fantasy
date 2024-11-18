@@ -31,17 +31,8 @@ public class PlayerService {
     }
 
     public Player updatePlayer(Long id, Player player) {
-        return playerRepository
-                .findById(id)
-                .map(p -> {
-                    p.setName(player.getName());
-                    p.setPrice(player.getPrice());
-                    p.setPoints(player.getPoints());
-                    return playerRepository.save(p);
-                })
-                .orElseGet(
-                        () -> playerRepository.save(player)
-                );
+        player.setId(id);
+        return playerRepository.save(player);
     }
 
     public void deletePlayer(Long id) {
