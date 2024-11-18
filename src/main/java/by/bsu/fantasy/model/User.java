@@ -10,7 +10,8 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 public class User {
-    @Id @GeneratedValue(strategy = GenerationType.AUTO)
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String name;
     private Double balance;
@@ -31,10 +32,4 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "team_id")
     )
     private List<Team> teams;
-
-    public User(String name, Double balance, Integer points) {
-        this.name = name;
-        this.balance = balance;
-        this.points = points;
-    }
 }

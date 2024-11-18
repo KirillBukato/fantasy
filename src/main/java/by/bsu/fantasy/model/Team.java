@@ -10,7 +10,8 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 public class Team {
-    @Id @GeneratedValue(strategy = GenerationType.AUTO)
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String name;
     private Double price;
@@ -22,10 +23,6 @@ public class Team {
     @ManyToMany(mappedBy = "teams")
     private List<User> users_picked;
 
-    public Team(String name, Double price, Integer points) {
-        this.name = name;
-        this.price = price;
-        this.points = points;
-    }
-
+    @OneToMany(mappedBy = "team")
+    private List<TeamIncome> incomes;
 }

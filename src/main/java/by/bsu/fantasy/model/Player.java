@@ -10,7 +10,8 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 public class Player {
-    @Id @GeneratedValue(strategy = GenerationType.AUTO)
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String name;
     private Double price;
@@ -23,11 +24,6 @@ public class Player {
     @ManyToMany(mappedBy = "players")
     private List<User> users_picked;
 
-    //TODO как то надо хранить список полученных очков
-
-    public Player(String name, Double price, Integer points) {
-        this.name = name;
-        this.price = price;
-        this.points = points;
-    }
+    @OneToMany(mappedBy = "player")
+    private List<PlayerIncome> incomes;
 }
