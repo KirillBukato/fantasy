@@ -12,6 +12,7 @@ public class PlayerIncome {
     @Id
     @GeneratedValue
     private Long id;
+    @Enumerated(EnumType.STRING)
     private IncomeType type;
     private String description;
     private Integer value;
