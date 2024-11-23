@@ -25,17 +25,17 @@ public class TeamIncomeController {
         return teamIncomeService.getTeamIncome(id);
     }
 
-    @PostMapping("/teamIncomes")
+    @PostMapping("/teamIncome")
     public TeamIncome addTeamIncome(@RequestBody TeamIncome teamIncome) {
         return teamIncomeService.addTeamIncome(teamIncome);
     }
 
-    @PutMapping("/teamIncomes/{id}")
+    @PutMapping("/teamIncome/{id}")
     public TeamIncome updateTeamIncome(@PathVariable Long id, @RequestBody TeamIncome teamIncome) {
         return teamIncomeService.updateTeamIncome(id, teamIncome);
     }
 
-    @DeleteMapping("/teamIncomes/{id}")
+    @DeleteMapping("/teamIncome/{id}")
     public void deleteTeamIncome(@PathVariable Long id) {
         teamIncomeService.deleteTeamIncome(id);
     }

@@ -19,22 +19,22 @@ public class TeamController {
         return teamService.getTeams();
     }
 
-    @GetMapping("/teams/{id}")
+    @GetMapping("/team/{id}")
     public Team getTeamById(@PathVariable Long id) {
         return teamService.getTeamById(id);
     }
 
-    @PostMapping("/teams")
+    @PostMapping("/team")
     public Team createTeam(@RequestBody Team team) {
         return teamService.createTeam(team);
     }
 
-    @PutMapping("/teams/{id}")
+    @PutMapping("/team/{id}")
     public Team updateTeam(@PathVariable Long id, @RequestBody Team team) {
         return teamService.updateTeam(id, team);
     }
 
-    @DeleteMapping("/teams/{id}")
+    @DeleteMapping("/team/{id}")
     public void deleteTeam(@PathVariable Long id) {
         teamService.deleteTeam(id);
     }

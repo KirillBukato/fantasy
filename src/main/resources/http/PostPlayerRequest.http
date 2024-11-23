@@ -1,0 +1,9 @@
+POST http://localhost:8080/player
+Accept: application/json
+Content-Type: application/json
+
+{
+  "name": "oleg",
+  "price": 10,
+  "points": 4
+}

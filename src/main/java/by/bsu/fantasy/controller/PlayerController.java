@@ -19,22 +19,22 @@ public class PlayerController {
         return playerService.getPlayers();
     }
 
-    @GetMapping("/players/{id}")
+    @GetMapping("/player/{id}")
     public Player getPlayerById(@PathVariable Long id) {
         return playerService.getPlayerById(id);
     }
 
-    @PostMapping("/players")
+    @PostMapping("/player")
     public Player addPlayer(@RequestBody Player player) {
         return playerService.addPlayer(player);
     }
 
-    @PutMapping("/players/{id}")
+    @PutMapping("/player/{id}")
     public Player updatePlayer(@PathVariable Long id, @RequestBody Player player) {
         return playerService.updatePlayer(id, player);
     }
 
-    @DeleteMapping("/players/{id}")
+    @DeleteMapping("/player/{id}")
     public void deletePlayer(@PathVariable Long id) {
         playerService.deletePlayer(id);
     }

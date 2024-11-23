@@ -25,17 +25,17 @@ public class PlayerIncomeController {
         return playerIncomeService.getPlayerIncome(id);
     }
 
-    @PostMapping("/playerIncomes")
+    @PostMapping("/playerIncome")
     public PlayerIncome addPlayerIncome(@RequestBody PlayerIncome playerIncome) {
         return playerIncomeService.addPlayerIncome(playerIncome);
     }
 
-    @PutMapping("/playerIncomes/{id}")
+    @PutMapping("/playerIncome/{id}")
     public PlayerIncome updatePlayerIncome(@PathVariable Long id, @RequestBody PlayerIncome playerIncome) {
         return playerIncomeService.updatePlayerIncome(id, playerIncome);
     }
 
-    @DeleteMapping("/playerIncomes/{id}")
+    @DeleteMapping("/playerIncome/{id}")
     public void deletePlayerIncome(@PathVariable Long id) {
         playerIncomeService.deletePlayerIncome(id);
     }
