@@ -15,7 +15,7 @@ public class PlayerIncome {
     @Enumerated(EnumType.STRING)
     private IncomeType type;
     private String description;
-    private Integer value;
+    private Integer amount;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Player player;

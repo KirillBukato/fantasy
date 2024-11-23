@@ -61,11 +61,11 @@ public class UserService {
     public Integer getUserEstimatedIncome(Long id) {
         Integer playerSum = getUserPlayerIncomes(id)
                 .stream()
-                .mapToInt(PlayerIncome::getValue)
+                .mapToInt(PlayerIncome::getAmount)
                 .reduce(0, Integer::sum);
         Integer teamSum = getUserTeamIncomes(id)
                 .stream()
-                .mapToInt(TeamIncome::getValue)
+                .mapToInt(TeamIncome::getAmount)
                 .reduce(0, Integer::sum);
         return playerSum + teamSum;
     }
