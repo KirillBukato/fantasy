@@ -1,9 +1,6 @@
 package by.bsu.fantasy.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
+import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import java.time.*;
@@ -22,6 +19,6 @@ public class Tournament {
     private LocalDateTime lockDateTime;
     private LocalDateTime unlockDateTime;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.LAZY)
     private List<Team> teams;
 }

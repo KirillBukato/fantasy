@@ -17,7 +17,6 @@ public class PlayerIncome {
     private String description;
     private Integer value;
 
-    @ManyToOne
-    @JoinColumn(name = "player_id", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
     private Player player;
 }
