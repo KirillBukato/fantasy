@@ -17,8 +17,7 @@ public class Player {
     private Double price;
     private Integer points;
 
-    @ManyToOne
-    @JoinColumn(name = "team_id", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
     private Team team;
 
     @ManyToMany(mappedBy = "players")

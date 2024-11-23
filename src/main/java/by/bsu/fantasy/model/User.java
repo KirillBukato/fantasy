@@ -17,19 +17,9 @@ public class User {
     private Double balance;
     private Integer points;
 
-    @ManyToMany
-    @JoinTable(
-            name = "user_players_picks",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "player_id")
-    )
+    @ManyToMany(fetch = FetchType.LAZY)
     private List<Player> players;
 
-    @ManyToMany
-    @JoinTable(
-            name = "user_team_picks",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "team_id")
-    )
+    @ManyToMany(fetch = FetchType.LAZY)
     private List<Team> teams;
 }
