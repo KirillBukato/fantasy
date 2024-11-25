@@ -5,5 +5,8 @@ Content-Type: application/json
 {
   "name": "oleg",
   "price": 10,
-  "points": 4
+  "points": 4,
+  "team": {
+    "id": 1
+  }
 }
