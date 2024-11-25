@@ -2,19 +2,24 @@ package by.bsu.fantasy.util;
 
 import java.util.Date;
 
+import org.springframework.stereotype.Service;
+
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 
+@Service
 public class JwtTokenUtil {
-    private String secretKey = "your_secret_key";
+    private static JwtTokenUtil instance = new JwtTokenUtil();
+
+    public static JwtTokenUtil getInstance() {
+        return instance;
+    }
 
     public String generateAccessToken(String username) {
         return Jwts.builder()
                 .setSubject(username)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + 3600000)) // 1 час
-                .signWith(SignatureAlgorithm.HS512, secretKey)
                 .compact();
     }
 
@@ -23,13 +28,11 @@ public class JwtTokenUtil {
                 .setSubject(username)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + 86400000)) // 1 день
-                .signWith(SignatureAlgorithm.HS512, secretKey)
                 .compact();
     }
 
     public Claims getClaimsFromToken(String token) {
         return Jwts.parser()
-                .setSigningKey(secretKey)
                 .parseClaimsJws(token)
                 .getBody();
     }

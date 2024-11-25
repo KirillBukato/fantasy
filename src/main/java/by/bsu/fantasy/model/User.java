@@ -2,13 +2,13 @@ package by.bsu.fantasy.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 
 @Entity
 @Data
-@NoArgsConstructor
+@RequiredArgsConstructor
 @Table(name = "users")
 public class User {
     @Id
@@ -17,6 +17,10 @@ public class User {
     private String name;
     private Double balance;
     private Integer points;
+    @Column(unique = true)
+    private String username;
+    private String password;
+    private String role;
 
     @ManyToMany(fetch = FetchType.LAZY)
     private List<Player> players;

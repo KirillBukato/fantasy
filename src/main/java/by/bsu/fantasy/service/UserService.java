@@ -5,6 +5,7 @@ import by.bsu.fantasy.model.PlayerIncome;
 import by.bsu.fantasy.model.TeamIncome;
 import by.bsu.fantasy.model.User;
 import by.bsu.fantasy.repository.UserRepository;
+
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,6 +13,7 @@ import java.util.List;
 @Service
 public class UserService {
     private final UserRepository userRepository;
+
 
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
@@ -26,6 +28,12 @@ public class UserService {
         return userRepository
                 .findById(id)
                 .orElseThrow(() -> new UserNotFoundException(id));
+    }
+
+    public User getUserByUsername(String id) {
+        return userRepository
+                .findByUsername(id)
+                .orElseThrow(() -> new RuntimeException(id));
     }
 
     public User createUser(User user) {
@@ -68,5 +76,16 @@ public class UserService {
                 .mapToInt(TeamIncome::getAmount)
                 .reduce(0, Integer::sum);
         return playerSum + teamSum;
+    }
+
+    public User createUserWithId(String username, String password, String role) {
+        User user = new User();
+        user.setUsername(username);
+        user.setPassword(password);
+        user.setRole(role);
+        user.setBalance(0.);
+        user.setPoints(0);
+
+        return userRepository.save(user);
     }
 }

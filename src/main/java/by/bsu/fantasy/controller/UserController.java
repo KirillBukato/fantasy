@@ -4,6 +4,7 @@ import by.bsu.fantasy.model.User;
 import by.bsu.fantasy.service.UserPlayerService;
 import by.bsu.fantasy.service.UserService;
 import by.bsu.fantasy.service.UserTeamService;
+
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -54,5 +55,4 @@ public class UserController {
     public User addTeam(@PathVariable Long id, @PathVariable Long teamId) {
         return userTeamService.linkTeamToUser(id, teamId);
     }
-
 }

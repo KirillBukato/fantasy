@@ -1,0 +1,8 @@
+POST http://localhost:8080/register
+Accept: application/json
+Content-Type: application/json
+
+{
+  "login": "vadzim",
+  "password": "aszxdfvgbhjnmk"
+}
