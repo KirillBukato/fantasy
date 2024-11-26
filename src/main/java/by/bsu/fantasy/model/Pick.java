@@ -9,8 +9,7 @@ import java.util.List;
 @Entity
 @Data
 @RequiredArgsConstructor
-@Table(name = "users")
-public class User {
+public class Pick {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;

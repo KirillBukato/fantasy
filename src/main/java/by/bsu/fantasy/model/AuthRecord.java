@@ -23,9 +23,10 @@ public class AuthRecord {
 
     @Column(unique = true)
     private String username;
+    private String name;
     private String password;
     private String role;
 
     @OneToMany
-    private List<User> users;
+    private List<Pick> picks;
 }

@@ -1,17 +1,17 @@
 package by.bsu.fantasy.advice;
 
-import by.bsu.fantasy.exceptions.UserNotFoundException;
+import by.bsu.fantasy.exceptions.PickNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RestControllerAdvice
-public class UserNotFoundAdvice {
+public class PickNotFoundAdvice {
 
-    @ExceptionHandler(UserNotFoundException.class)
+    @ExceptionHandler(PickNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public String userNotFound(UserNotFoundException ex) {
+    public String userNotFound(PickNotFoundException ex) {
         return ex.getMessage();
     }
 }

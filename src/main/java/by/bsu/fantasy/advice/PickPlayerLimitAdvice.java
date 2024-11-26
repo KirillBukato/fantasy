@@ -4,12 +4,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-import by.bsu.fantasy.exceptions.UserTeamPickLimitException;
+import by.bsu.fantasy.exceptions.PickPlayerLimitException;
 
-public class UserTeamPickLimitAdvice {
-    @ExceptionHandler(UserTeamPickLimitException.class)
+public class PickPlayerLimitAdvice {
+    @ExceptionHandler(PickPlayerLimitException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public String playerNotFound(UserTeamPickLimitException ex) {
+    public String playerNotFound(PickPlayerLimitException ex) {
         return ex.getMessage();
     }
 }
