@@ -30,12 +30,6 @@ public class UserService {
                 .orElseThrow(() -> new UserNotFoundException(id));
     }
 
-    public User getUserByUsername(String id) {
-        return userRepository
-                .findByUsername(id)
-                .orElseThrow(() -> new RuntimeException(id));
-    }
-
     public User createUser(User user) {
         return userRepository
                 .save(user);
@@ -76,16 +70,5 @@ public class UserService {
                 .mapToInt(TeamIncome::getAmount)
                 .reduce(0, Integer::sum);
         return playerSum + teamSum;
-    }
-
-    public User createUserWithId(String username, String password, String role) {
-        User user = new User();
-        user.setUsername(username);
-        user.setPassword(password);
-        user.setRole(role);
-        user.setBalance(0.);
-        user.setPoints(0);
-
-        return userRepository.save(user);
     }
 }
