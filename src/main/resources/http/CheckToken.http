@@ -1,0 +1,10 @@
+POST http://localhost:8080/checktoken
+Accept: application/json
+Content-Type: application/json
+x-csrf-token: _csrf
+_csrf: eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiJkZWY2ODViZmNhZTI0MDMwOTY4ZjlhNDMyMjU2YzM0MiIsInN1YiI6InZhZHppbSIsImlhdCI6MTczMjYzMTg0MCwibmJmIjoxNzMyNjMxODQwLCJleHAiOjE3MzI2MzM2NDB9.BU6h5n0h4C9JCAcvs5C4Vihj06edTaECl6voWLv9VOY
+
+{
+  "login": "vadzim",
+  "password": "aszxdfvgbhjnmk"
+}

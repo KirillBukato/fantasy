@@ -1,35 +1,27 @@
 package by.bsu.fantasy.service;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.stereotype.Service;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 
-import by.bsu.fantasy.config.SecurityConfig;
-import by.bsu.fantasy.model.AuthRecord;
 import by.bsu.fantasy.model.AuthResponse;
-import by.bsu.fantasy.util.JwtTokenUtil;
+import by.bsu.fantasy.util.JwtTokenRepository;
 import lombok.AllArgsConstructor;
 
 @Service
 @AllArgsConstructor
 public class AuthService {
     private final AuthRecordService authRecordService;
-    private final JwtTokenUtil jwtTokenUtil;
+    private final JwtTokenRepository jwtTokenRepository;
 
-    public AuthResponse registerUser(String login, String passw, String role) {
-        authRecordService.createRecord(login, passw, role);
-        return new AuthResponse(jwtTokenUtil.generateAccessToken(login), jwtTokenUtil.generateRefreshToken(login));
-    }
-
-    public AuthResponse loginUser(String login, String password) {
-        AuthRecord authRecord = null;
-        try { 
-            authRecord = authRecordService.getRecordByUsername(login);
-        } catch(RuntimeException e) {
-            throw new RuntimeException("ADASSAD");
-        }
-        return new AuthResponse(authRecord.getPassword(), SecurityConfig.passwordEncoder().encode(password));
-        // if (user.getPassword().equals(SecurityConfig.passwordEncoder().encode(password))) {
-        //     return new AuthResponse(jwtTokenUtil.generateAccessToken(login), jwtTokenUtil.generateRefreshToken(login));
-        // }
-        // throw new LoginFailedException();
+    public ResponseEntity<AuthResponse> registerUser(String login, String password, String role) {
+        authRecordService.createRecord(login, password, role);
+        AuthResponse response = new AuthResponse(login, role);
+        CsrfToken token = jwtTokenRepository.generateToken(login);
+        MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
+        return jwtTokenRepository.saveToken(token, new ResponseEntity<>(response, headers, HttpStatus.OK));
     }
 }
