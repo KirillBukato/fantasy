@@ -1,8 +1,6 @@
 POST http://localhost:8080/checktoken
 Accept: application/json
 Content-Type: application/json
-x-csrf-token: _csrf
-_csrf: eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiIxZjFiOTllNjBiNzk0ODgyODI1NDMwOWRmY2Y0MjAwMyIsInN1YiI6InZhZHppbTIiLCJpYXQiOjE3MzI2MzM5NzEsIm5iZiI6MTczMjYzMzk3MSwiZXhwIjoxNzMyNjM0MDMxfQ.DRlCpve82CNVah0q1ppQjfrOWjvSGpznGy-fQu5oAJ0
 
 {
   "login": "pusto",

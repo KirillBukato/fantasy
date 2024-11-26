@@ -32,6 +32,7 @@ public class AuthController {
         return authService.registerUser(authRequest.getLogin(), SecurityConfig.passwordEncoder().encode(authRequest.getPassword()), "basic_user");
     }
 
+    @SuppressWarnings("null")
     @PostMapping("/checktoken")
     public ResponseEntity<User> checkToken(RequestEntity<AuthRequest> authRequest) {
         if (authRequest.getHeaders().get("x-csrf-token") == null) {

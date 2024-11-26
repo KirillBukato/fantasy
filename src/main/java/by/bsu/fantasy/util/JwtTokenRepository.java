@@ -16,7 +16,6 @@ import org.springframework.util.MultiValueMap;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.Getter;
 
 @Repository
@@ -25,6 +24,7 @@ public class JwtTokenRepository {
     @Getter
     private static String secret = "meeoooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooow";
 
+    @SuppressWarnings("deprecation")
     public CsrfToken generateToken(String username) {
         String id = UUID.randomUUID().toString().replace("-", "");
         Date now = new Date();
@@ -56,9 +56,5 @@ public class JwtTokenRepository {
             return new ResponseEntity<T>(response.getBody(), headers, response.getStatusCode());
         }
         return null;
-    }
-
-    public CsrfToken loadToken(HttpServletRequest request) {
-        return (CsrfToken) request.getAttribute(CsrfToken.class.getName());
     }
 }
