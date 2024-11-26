@@ -14,11 +14,11 @@ import lombok.AllArgsConstructor;
 @Service
 @AllArgsConstructor
 public class AuthService {
-    private final AuthRecordService authRecordService;
+    private final UserService userService;
     private final JwtTokenRepository jwtTokenRepository;
 
     public ResponseEntity<AuthResponse> registerUser(String login, String password, String role) {
-        authRecordService.createRecord(login, password, role);
+        userService.createRecord(login, password, role);
         AuthResponse response = new AuthResponse(login, role);
         CsrfToken token = jwtTokenRepository.generateToken(login);
         MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();

@@ -4,31 +4,31 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import by.bsu.fantasy.model.AuthRecord;
-import by.bsu.fantasy.repository.AuthRecordRepository;
+import by.bsu.fantasy.model.User;
+import by.bsu.fantasy.repository.UserRepository;
 import lombok.AllArgsConstructor;
 
 @Service
 @AllArgsConstructor
-public class AuthRecordService {
-    private final AuthRecordRepository authRecordRepository;
+public class UserService {
+    private final UserRepository userRepository;
 
     public void createRecord(String login, String passw, String role) {
-        AuthRecord newRecord = new AuthRecord();
+        User newRecord = new User();
         newRecord.setUsername(login);
         newRecord.setPassword(passw);
         newRecord.setRole(role);
-        authRecordRepository.save(newRecord);
+        userRepository.save(newRecord);
     }
 
-    public AuthRecord getRecordByUsername(String id) {
-        return authRecordRepository
+    public User getRecordByUsername(String id) {
+        return userRepository
                 .findByUsername(id)
                 .orElseThrow(() -> new RuntimeException(id));
     }
 
-    public List<AuthRecord> getRecords() {
-        return authRecordRepository
+    public List<User> getRecords() {
+        return userRepository
                 .findAll();
     }
 }

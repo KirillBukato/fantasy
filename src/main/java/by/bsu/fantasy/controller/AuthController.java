@@ -10,10 +10,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import by.bsu.fantasy.config.SecurityConfig;
-import by.bsu.fantasy.model.AuthRecord;
+import by.bsu.fantasy.model.User;
 import by.bsu.fantasy.model.AuthRequest;
 import by.bsu.fantasy.model.AuthResponse;
-import by.bsu.fantasy.service.AuthRecordService;
+import by.bsu.fantasy.service.UserService;
 import by.bsu.fantasy.service.AuthService;
 import by.bsu.fantasy.util.JwtTokenRepository;
 import io.jsonwebtoken.Claims;
@@ -25,7 +25,7 @@ import lombok.AllArgsConstructor;
 public class AuthController {
 
     private final AuthService authService;
-    private final AuthRecordService authRecordService;
+    private final UserService userService;
 
     @PostMapping("/register")
     public ResponseEntity<AuthResponse> registerUser(@RequestBody AuthRequest authRequest) {
@@ -33,7 +33,7 @@ public class AuthController {
     }
 
     @PostMapping("/checktoken")
-    public ResponseEntity<AuthRecord> checkToken(RequestEntity<AuthRequest> authRequest) {
+    public ResponseEntity<User> checkToken(RequestEntity<AuthRequest> authRequest) {
         if (authRequest.getHeaders().get("x-csrf-token") == null) {
             return new ResponseEntity<>(null, null, HttpStatus.BAD_REQUEST);
         }
@@ -49,7 +49,7 @@ public class AuthController {
                 return new ResponseEntity<>(null, null, HttpStatus.UNAUTHORIZED);
             }
             try {
-                AuthRecord record = authRecordService.getRecordByUsername(claims.getSubject());
+                User record = userService.getRecordByUsername(claims.getSubject());
                 return new ResponseEntity<>(record, HttpStatus.OK);
             } catch(RuntimeException e) {
                 return new ResponseEntity<>(null, null, HttpStatus.UNAUTHORIZED);

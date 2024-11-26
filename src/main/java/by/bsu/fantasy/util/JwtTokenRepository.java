@@ -28,7 +28,7 @@ public class JwtTokenRepository {
     public CsrfToken generateToken(String username) {
         String id = UUID.randomUUID().toString().replace("-", "");
         Date now = new Date();
-        Date exp = Date.from(LocalDateTime.now().plusMinutes(30)
+        Date exp = Date.from(LocalDateTime.now().plusMinutes(1)
                 .atZone(ZoneId.systemDefault()).toInstant());
 
         String token = "";

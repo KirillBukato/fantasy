@@ -5,17 +5,17 @@ import java.util.List;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import by.bsu.fantasy.model.AuthRecord;
-import by.bsu.fantasy.service.AuthRecordService;
+import by.bsu.fantasy.model.User;
+import by.bsu.fantasy.service.UserService;
 import lombok.AllArgsConstructor;
 
 @RestController
 @AllArgsConstructor
-public class AuthRecordController {
-    private final AuthRecordService authRecordService;
+public class UserController {
+    private final UserService userService;
 
     @GetMapping("/auth/all")
-    private List<AuthRecord> getAll() {
-        return authRecordService.getRecords();
+    private List<User> getAll() {
+        return userService.getRecords();
     }
 }
