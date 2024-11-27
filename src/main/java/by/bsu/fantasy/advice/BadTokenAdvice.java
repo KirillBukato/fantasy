@@ -8,7 +8,7 @@ import by.bsu.fantasy.exceptions.BadTokenException;
 
 public class BadTokenAdvice {
     @ExceptionHandler(BadTokenException.class)
-    @ResponseStatus(HttpStatus.CONFLICT)
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
     public String badToken(BadTokenException ex) {
         return ex.getMessage();
     }

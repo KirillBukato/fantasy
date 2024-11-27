@@ -40,7 +40,7 @@ public class JwtCsrfFilter extends OncePerRequestFilter {
                 return null;
             }
             try {
-                User record = userService.getRecordByUsername(claims.getSubject());
+                User record = userService.getUserByUsername(claims.getSubject());
                 return record.getRole();
             } catch(RuntimeException e) {
                 return null;
@@ -54,15 +54,19 @@ public class JwtCsrfFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
-        request.setAttribute(HttpServletResponse.class.getName(), response);
-        String role = checkToken(request);
-        if (request.getServletPath().equals("/register") || request.getServletPath().equals("/login")) {
+        try {
+            request.setAttribute(HttpServletResponse.class.getName(), response);
+            String role = checkToken(request);
+            if (request.getServletPath().equals("/register") || request.getServletPath().equals("/login")) {
+                filterChain.doFilter(request, response);
+                return;
+            }
+            if (role == null) {
+                throw new BadTokenException();
+            }
             filterChain.doFilter(request, response);
-            return;
+        } catch(RuntimeException e) {
+            response.sendError(HttpServletResponse.SC_FORBIDDEN, "Access denied.");
         }
-        if (role == null) {
-            throw new BadTokenException();
-        }
-        filterChain.doFilter(request, response);
     }
 }

@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.UUID;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.security.web.csrf.DefaultCsrfToken;
@@ -24,11 +25,14 @@ public class JwtTokenRepository {
     @Getter
     private static String secret = "meeoooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooow";
 
+    @Value("${by.fantasy.token_expire_after}")
+    private String expireAfter;
+
     @SuppressWarnings("deprecation")
     public CsrfToken generateToken(String username) {
         String id = UUID.randomUUID().toString().replace("-", "");
         Date now = new Date();
-        Date exp = Date.from(LocalDateTime.now().plusMinutes(30)
+        Date exp = Date.from(LocalDateTime.now().plusMinutes(Integer.parseInt(expireAfter))
                 .atZone(ZoneId.systemDefault()).toInstant());
 
         String token = "";

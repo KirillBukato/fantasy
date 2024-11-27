@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import by.bsu.fantasy.exceptions.LoginFailedException;
 import by.bsu.fantasy.model.User;
 import by.bsu.fantasy.repository.UserRepository;
 import lombok.AllArgsConstructor;
@@ -13,7 +14,7 @@ import lombok.AllArgsConstructor;
 public class UserService {
     private final UserRepository userRepository;
 
-    public void createRecord(String login, String passw, String role) {
+    public void createUser(String login, String passw, String role) {
         User newRecord = new User();
         newRecord.setUsername(login);
         newRecord.setPassword(passw);
@@ -21,13 +22,13 @@ public class UserService {
         userRepository.save(newRecord);
     }
 
-    public User getRecordByUsername(String id) {
+    public User getUserByUsername(String username) {
         return userRepository
-                .findByUsername(id)
-                .orElseThrow(() -> new RuntimeException(id));
+                .findByUsername(username)
+                .orElseThrow(() -> new LoginFailedException());
     }
 
-    public List<User> getRecords() {
+    public List<User> getUSers() {
         return userRepository
                 .findAll();
     }

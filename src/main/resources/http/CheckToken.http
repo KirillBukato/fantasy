@@ -1,6 +1,8 @@
 GET http://localhost:8080/authenticate
 Accept: application/json
 Content-Type: application/json
+x-csrf-token: _csrf
+_csrf: eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiJiYTA2NWRiYzk4NWQ0NjkxOWRkNTNjOTExMzNiZmM3ZiIsInN1YiI6InZhZHppbSIsImlhdCI6MTczMjY4OTY3NCwibmJmIjoxNzMyNjg5Njc0LCJleHAiOjE3MzI2OTE0NzR9.kDU3dhN2lesuc00gh_Nsqk7Rzynjn_dWrQj86ntkOA8
 
 {
   "login": "pusto",
