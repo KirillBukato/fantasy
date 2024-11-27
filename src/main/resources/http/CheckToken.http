@@ -1,4 +1,4 @@
-POST http://localhost:8080/checktoken
+GET http://localhost:8080/authenticate
 Accept: application/json
 Content-Type: application/json
 
