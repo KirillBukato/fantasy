@@ -1,2 +1,4 @@
 GET http://localhost:8080/teams
 Accept: application/json
+x-csrf-token: _csrf
+_csrf: eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiI4ODdmOTQzYjY3YWQ0OWNkYmY0ZmIxODUxYjMwMzhjNyIsInN1YiI6InZhZHppbSIsImlhdCI6MTczMjY4NzgxOCwibmJmIjoxNzMyNjg3ODE4LCJleHAiOjE3MzI2ODk2MTh9.PiDrUiISZ9v7HmKfmb4CF351I9Ell4RVxbwCBWE5Ydg

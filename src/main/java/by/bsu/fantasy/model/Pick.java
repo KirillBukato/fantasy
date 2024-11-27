@@ -1,5 +1,7 @@
 package by.bsu.fantasy.model;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
@@ -22,4 +24,8 @@ public class Pick {
 
     @ManyToMany(fetch = FetchType.LAZY)
     private List<Team> teams;
+
+    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    private User user;
 }
