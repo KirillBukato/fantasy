@@ -1,8 +1,10 @@
 package by.bsu.fantasy.config;
 
+import java.io.IOException;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -16,26 +18,44 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.access.AccessDeniedHandler;
+import org.springframework.security.web.csrf.CsrfFilter;
+
+import by.bsu.fantasy.service.UserService;
+import by.bsu.fantasy.util.JwtCsrfFilter;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import lombok.AllArgsConstructor;
+
+
+
 
 @Configuration
 @EnableWebSecurity
+@AllArgsConstructor
 public class SecurityConfig {
 
+    private class CustomAccessDeniedHandler implements AccessDeniedHandler {
+        @Override
+        public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException accessDeniedException)
+            throws IOException, ServletException {
+            response.sendError(HttpServletResponse.SC_FORBIDDEN, "Access Denied");
+        }
+    }
+
+    private final UserService userService;
+
+    @SuppressWarnings("removal")
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable)
+            .addFilterAt(new JwtCsrfFilter(userService), CsrfFilter.class)
             .authorizeHttpRequests(authorize -> authorize
-                .requestMatchers(HttpMethod.GET, "/", "/home", "/users", "/players", "/register", "/login", "/auth/all", "/authenticate").permitAll()
-                .requestMatchers(HttpMethod.POST, "/", "/home", "/users", "/players", "/register", "/login", "/auth/all", "/authenticate").permitAll()
-                .anyRequest().authenticated()
+                .anyRequest().permitAll()
             )
-            .formLogin(formLogin -> formLogin
-                .loginPage("/anyother")
-                .permitAll()
-            )
-            .logout(logout -> logout
-                .permitAll()
-            );
+            .exceptionHandling()
+            .accessDeniedHandler(new CustomAccessDeniedHandler());
 
         return http.build();
     }
