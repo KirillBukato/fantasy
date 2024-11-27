@@ -5,6 +5,7 @@ import java.util.Date;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -32,8 +33,7 @@ public class AuthController {
         return authService.registerUser(authRequest.getLogin(), SecurityConfig.passwordEncoder().encode(authRequest.getPassword()), "basic_user");
     }
 
-    @SuppressWarnings("null")
-    @PostMapping("/checktoken")
+    @GetMapping("/authenticate")
     public ResponseEntity<User> checkToken(RequestEntity<AuthRequest> authRequest) {
         if (authRequest.getHeaders().get("x-csrf-token") == null) {
             return new ResponseEntity<>(null, null, HttpStatus.BAD_REQUEST);
