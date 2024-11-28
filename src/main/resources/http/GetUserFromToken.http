@@ -1,0 +1,4 @@
+GET http://localhost:8080/users/fromtoken
+Accept: application/json
+x-csrf-token: _csrf
+_csrf: eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiJjMDliMDVjMTY0MDQ0ODA2YjRhNjBlMzJiZmI0NTRkYyIsInN1YiI6InZhZHppbSIsImlhdCI6MTczMjY5Mzg1NywibmJmIjoxNzMyNjkzODU3LCJleHAiOjE3MzI2OTU2NTd9.DPx3aUoRxZvSRIbGQMeeiuUswRU6l0FrZT2NdbIjhVw

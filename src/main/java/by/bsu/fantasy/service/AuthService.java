@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
+import by.bsu.fantasy.exceptions.LoginFailedException;
 import by.bsu.fantasy.model.User;
 import by.bsu.fantasy.util.JwtTokenRepository;
 import by.bsu.fantasy.util.PasswordUtil;
@@ -28,8 +29,14 @@ public class AuthService {
     }
 
     public ResponseEntity<User> loginUser(String login, String password) {
-        User response = userService.getUserByUsername(login);
-        if (passwordUtil.verify(response.getPassword(), password)) {
+        User response = null;
+        try {
+            response = userService.getUserByUsername(login);
+        } catch (LoginFailedException e) {
+            return new ResponseEntity<>(null, null, HttpStatus.UNAUTHORIZED);
+        }
+
+        if (passwordUtil.verify(password, response.getPassword())) {
             CsrfToken token = jwtTokenRepository.generateToken(login);
             MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
             return jwtTokenRepository.saveToken(token, new ResponseEntity<>(response, headers, HttpStatus.OK));

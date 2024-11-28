@@ -21,8 +21,8 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.csrf.CsrfFilter;
 
-import by.bsu.fantasy.service.UserService;
 import by.bsu.fantasy.util.JwtCsrfFilter;
+import by.bsu.fantasy.util.JwtTokenRepository;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -44,13 +44,13 @@ public class SecurityConfig {
         }
     }
 
-    private final UserService userService;
+    private final JwtTokenRepository jwtTokenRepository;
 
     @SuppressWarnings("removal")
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable)
-            .addFilterAt(new JwtCsrfFilter(userService), CsrfFilter.class)
+            .addFilterAt(new JwtCsrfFilter(jwtTokenRepository), CsrfFilter.class)
             .authorizeHttpRequests(authorize -> authorize
                 .anyRequest().permitAll()
             )

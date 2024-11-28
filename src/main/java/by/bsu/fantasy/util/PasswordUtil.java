@@ -12,7 +12,7 @@ public class PasswordUtil {
         return passwordEncoder.encode(rawPassword);
     }
 
-    public boolean verify(String encodedPassword, String rawPassword) {
-        return (encodedPassword.equals(encode(rawPassword)));
+    public boolean verify(String rawPassword, String encodedPassword) {
+        return passwordEncoder.matches(rawPassword, encodedPassword);
     }
 }

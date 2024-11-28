@@ -14,9 +14,13 @@ import org.springframework.stereotype.Repository;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
+import by.bsu.fantasy.model.User;
+import by.bsu.fantasy.service.UserService;
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.Getter;
 
 @Repository
@@ -27,6 +31,46 @@ public class JwtTokenRepository {
 
     @Value("${by.fantasy.token_expire_after}")
     private String expireAfter;
+
+    private final UserService userService;
+
+    public JwtTokenRepository(UserService us) {
+        this.userService = us;
+    }
+
+    public String getTokenFromRequest(HttpServletRequest authRequest) {
+        if (authRequest.getHeader("x-csrf-token") == null) {
+            return null;
+        }
+        try {
+            String token = authRequest.getHeader(authRequest.getHeader("x-csrf-token"));
+            return token;
+        } catch(NullPointerException e) {
+            return null;
+        }
+    }
+
+    public User getUserFromRequest(HttpServletRequest authRequest) {
+        try {
+            Claims claims = Jwts.parserBuilder()
+                .setSigningKey(JwtTokenRepository.getSecret())
+                .build()
+                .parseClaimsJws(getTokenFromRequest(authRequest))
+                .getBody();
+
+            if (claims.getExpiration().before(new Date())) {
+                return null;
+            }
+            try {
+                User record = userService.getUserByUsername(claims.getSubject());
+                return record;
+            } catch(RuntimeException e) {
+                return null;
+            }
+        } catch(NullPointerException e) {
+            return null;
+        }
+    }
 
     @SuppressWarnings("deprecation")
     public CsrfToken generateToken(String username) {
