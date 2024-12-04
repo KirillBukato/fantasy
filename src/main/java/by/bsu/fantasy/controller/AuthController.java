@@ -22,7 +22,7 @@ public class AuthController {
         return authService.registerUser(authRequest.getLogin(), authRequest.getPassword(), "basic_user");
     }
 
-    @GetMapping("/login")
+    @PostMapping("/login")
     public ResponseEntity<User> loginUser(@RequestBody AuthRequest authRequest) {
         return authService.loginUser(authRequest.getLogin(), authRequest.getPassword());
     }
