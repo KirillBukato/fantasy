@@ -1,6 +1,8 @@
 package by.bsu.fantasy.controller;
 
+import by.bsu.fantasy.dto.PickDTO;
 import by.bsu.fantasy.model.Pick;
+import by.bsu.fantasy.util.DtoMappingUtil;
 import by.bsu.fantasy.service.PickPlayerService;
 import by.bsu.fantasy.service.PickService;
 import by.bsu.fantasy.service.PickTeamService;
@@ -8,6 +10,7 @@ import by.bsu.fantasy.service.PickTeamService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 public class PickController {
@@ -22,23 +25,33 @@ public class PickController {
     }
 
     @GetMapping("/picks")
-    public List<Pick> getPicks() {
-        return pickService.getPicks();
+    public List<PickDTO> getPicks() {
+        return pickService.getPicks()
+                .stream()
+                .map(DtoMappingUtil::convert)
+                .collect(Collectors.toList());
     }
 
     @GetMapping("/pick/{id}")
-    public Pick getPickById(@PathVariable Long id) {
-        return pickService.getPickById(id);
+    public PickDTO getPickById(@PathVariable Long id) {
+        return DtoMappingUtil.convert(
+                pickService.getPickById(id)
+        );
     }
 
     @PostMapping("/pick")
-    public Pick createPick(@RequestBody Pick pick) {
-        return pickService.createPick(pick);
+    public PickDTO createPick(@RequestBody Pick pick) {
+        pick.setBalance(1000.0);
+        return DtoMappingUtil.convert(
+                pickService.createPick(pick)
+        );
     }
 
     @PutMapping("/pick/{id}")
-    public Pick updatePick(@PathVariable Long id, @RequestBody Pick pick) {
-        return pickService.updatePick(id, pick);
+    public PickDTO updatePick(@PathVariable Long id, @RequestBody Pick pick) {
+        return DtoMappingUtil.convert(
+                pickService.updatePick(id, pick)
+        );
     }
 
     @DeleteMapping("/pick/{id}")
@@ -47,12 +60,16 @@ public class PickController {
     }
 
     @PutMapping("/pick/{id}/addPlayer/{playerId}")
-    public Pick addPlayer(@PathVariable Long id, @PathVariable Long playerId) {
-        return pickPlayerService.linkPlayerToPick(id, playerId);
+    public PickDTO addPlayer(@PathVariable Long id, @PathVariable Long playerId) {
+        return DtoMappingUtil.convert(
+                pickPlayerService.linkPlayerToPick(id, playerId)
+        );
     }
 
     @PutMapping("/pick/{id}/addTeam/{teamId}")
-    public Pick addTeam(@PathVariable Long id, @PathVariable Long teamId) {
-        return pickTeamService.linkTeamToPick(id, teamId);
+    public PickDTO addTeam(@PathVariable Long id, @PathVariable Long teamId) {
+        return DtoMappingUtil.convert(
+                pickTeamService.linkTeamToPick(id, teamId)
+        );
     }
 }

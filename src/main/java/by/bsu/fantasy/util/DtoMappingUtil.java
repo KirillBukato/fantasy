@@ -1,4 +1,4 @@
-package by.bsu.fantasy.service;
+package by.bsu.fantasy.util;
 
 import by.bsu.fantasy.dto.*;
 import by.bsu.fantasy.model.*;
@@ -8,8 +8,8 @@ import java.util.stream.Collectors;
 
 //TODO заиспользовать во всех контроллерах
 @Service
-public class DTOService {
-    public UserDTO getUserDTO(User user) {
+public class DtoMappingUtil {
+    public static UserDTO convert(User user) {
         return new UserDTO(
                 user.getId(),
                 user.getUsername(),
@@ -22,7 +22,7 @@ public class DTOService {
         );
     }
 
-    public PickDTO getPickDTO(Pick pick) {
+    public static PickDTO convert(Pick pick) {
         return new PickDTO(
                 pick.getId(),
                 pick.getBalance(),
@@ -33,7 +33,7 @@ public class DTOService {
         );
     }
 
-    public PlayerDTO getPlayerDTO(Player player) {
+    public static PlayerDTO convert(Player player) {
         return new PlayerDTO(
                 player.getId(),
                 player.getName(),
@@ -48,7 +48,7 @@ public class DTOService {
         );
     }
 
-    public TeamDTO getTeamDTO(Team team) {
+    public static TeamDTO convert(Team team) {
         return new TeamDTO(
                 team.getId(),
                 team.getName(),
@@ -63,7 +63,7 @@ public class DTOService {
         );
     }
 
-    public PlayerIncomeDTO getPlayerIncomeDTO(PlayerIncome playerIncome) {
+    public static PlayerIncomeDTO convert(PlayerIncome playerIncome) {
         return new PlayerIncomeDTO(
                 playerIncome.getId(),
                 playerIncome.getType(),
@@ -73,7 +73,7 @@ public class DTOService {
         );
     }
 
-    public TeamIncomeDTO getTeamIncomeDTO(TeamIncome teamIncome) {
+    public static TeamIncomeDTO convert(TeamIncome teamIncome) {
         return new TeamIncomeDTO(
                 teamIncome.getId(),
                 teamIncome.getType(),
@@ -83,7 +83,7 @@ public class DTOService {
         );
     }
 
-    public TournamentDTO getTournamentDTO(Tournament tournament) {
+    public static TournamentDTO convert(Tournament tournament) {
         return new TournamentDTO(
                 tournament.getId(),
                 tournament.getName(),
