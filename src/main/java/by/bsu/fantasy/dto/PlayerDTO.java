@@ -2,9 +2,13 @@ package by.bsu.fantasy.dto;
 
 import by.bsu.fantasy.model.PlayerIncome;
 import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
+@Data
+@NoArgsConstructor
 @AllArgsConstructor
 public class PlayerDTO {
     private Long id;
@@ -16,5 +20,5 @@ public class PlayerDTO {
 
     private List<Long> pick_ids;
 
-    private List<PlayerIncome> incomes;
+    private List<PlayerIncomeDTO> incomes;
 }

@@ -27,8 +27,14 @@ public class DtoMappingUtil {
                 pick.getId(),
                 pick.getBalance(),
                 pick.getPoints(),
-                pick.getPlayers(),
-                pick.getTeams(),
+                pick.getPlayers()
+                        .stream()
+                        .map(DtoMappingUtil::convert)
+                        .toList(),
+                pick.getTeams()
+                        .stream()
+                        .map(DtoMappingUtil::convert)
+                        .toList(),
                 pick.getUser().getId()
         );
     }
@@ -45,6 +51,9 @@ public class DtoMappingUtil {
                         .map(Pick::getId)
                         .collect(Collectors.toList()),
                 player.getIncomes()
+                        .stream()
+                        .map(DtoMappingUtil::convert)
+                        .toList()
         );
     }
 
@@ -54,12 +63,18 @@ public class DtoMappingUtil {
                 team.getName(),
                 team.getPrice(),
                 team.getPoints(),
-                team.getPlayers(),
+                team.getPlayers()
+                        .stream()
+                        .map(DtoMappingUtil::convert)
+                        .toList(),
                 team.getPicks()
                         .stream()
                         .map(Pick::getId)
                         .collect(Collectors.toList()),
                 team.getIncomes()
+                        .stream()
+                        .map(DtoMappingUtil::convert)
+                        .toList()
         );
     }
 

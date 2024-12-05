@@ -3,9 +3,13 @@ package by.bsu.fantasy.dto;
 import by.bsu.fantasy.model.Player;
 import by.bsu.fantasy.model.TeamIncome;
 import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
+@Data
+@NoArgsConstructor
 @AllArgsConstructor
 public class TeamDTO {
     private Long id;
@@ -13,9 +17,9 @@ public class TeamDTO {
     private Double price;
     private Integer points;
 
-    private List<Player> players;
+    private List<PlayerDTO> players;
 
     private List<Long> pick_ids;
 
-    private List<TeamIncome> incomes;
+    private List<TeamIncomeDTO> incomes;
 }
