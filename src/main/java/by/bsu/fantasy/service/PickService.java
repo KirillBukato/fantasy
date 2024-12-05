@@ -4,6 +4,7 @@ import by.bsu.fantasy.exceptions.PickNotFoundException;
 import by.bsu.fantasy.model.Pick;
 import by.bsu.fantasy.model.PlayerIncome;
 import by.bsu.fantasy.model.TeamIncome;
+import by.bsu.fantasy.model.User;
 import by.bsu.fantasy.repository.PickRepository;
 
 import org.springframework.stereotype.Service;
@@ -31,6 +32,14 @@ public class PickService {
     }
 
     public Pick createPick(Pick pick) {
+        return pickRepository
+                .save(pick);
+    }
+
+    public Pick createNewPick(User user) {
+        Pick pick = new Pick();
+        pick.setBalance(1000.);
+        pick.setUser(user);
         return pickRepository
                 .save(pick);
     }

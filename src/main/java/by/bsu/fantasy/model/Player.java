@@ -18,15 +18,12 @@ public class Player {
     private Double price;
     private Integer points;
 
-    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
     @ManyToOne
     private Team team;
 
-    @JsonIgnore
     @ManyToMany(mappedBy = "players")
     private List<Pick> picks;
 
-    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
     @OneToMany(mappedBy = "player")
     private List<PlayerIncome> incomes;
 }

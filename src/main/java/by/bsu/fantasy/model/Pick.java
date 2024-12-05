@@ -24,7 +24,6 @@ public class Pick {
     @ManyToMany(fetch = FetchType.LAZY)
     private List<Team> teams;
 
-    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
     @ManyToOne(fetch = FetchType.LAZY)
     private User user;
 }

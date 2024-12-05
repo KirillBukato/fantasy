@@ -31,7 +31,6 @@ public class User {
     private String password;
     private String role;
 
-    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
     @OneToMany(mappedBy = "user")
     private List<Pick> picks;
 }
