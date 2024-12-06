@@ -24,13 +24,15 @@ public class UserController {
         return userService.getUSers();
     }
 
+    @SuppressWarnings("null")
     @GetMapping("/users/fromtoken")
     private ResponseEntity<User> getUserFromToken(HttpServletRequest request) {
+        HttpStatus flag = null;
         try {
-            User user = jwtTokenRepository.getUserFromRequest(request);
+            User user = jwtTokenRepository.getUserFromRequest(request, flag);
             return new ResponseEntity<>(user, HttpStatus.OK);
         } catch (RuntimeException e) {
-            return new ResponseEntity<>(null, null, HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(null, null, flag);
         }
     }
 }
