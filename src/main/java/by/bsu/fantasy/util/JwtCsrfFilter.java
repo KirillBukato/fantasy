@@ -31,6 +31,12 @@ public class JwtCsrfFilter extends OncePerRequestFilter {
             User user = jwtTokenRepository.getUserFromRequest(request, flag);
             if (user == null) {
                 response.sendError(HttpServletResponse.SC_NOT_FOUND, "User not found or bad token.");
+                return;
+            }
+            if (!user.getToken().equals(jwtTokenRepository.getTokenFromRequest(request))) {
+                System.err.println(user.getToken());
+                response.sendError(HttpServletResponse.SC_CONFLICT, "This token expired because new token was created for this user.");
+                return;
             }
             filterChain.doFilter(request, response);
         } catch(RuntimeException e) {

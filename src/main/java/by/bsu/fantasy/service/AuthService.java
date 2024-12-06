@@ -9,6 +9,7 @@ import org.springframework.util.MultiValueMap;
 
 import by.bsu.fantasy.exceptions.LoginFailedException;
 import by.bsu.fantasy.model.User;
+import by.bsu.fantasy.repository.UserRepository;
 import by.bsu.fantasy.util.JwtTokenRepository;
 import by.bsu.fantasy.util.PasswordUtil;
 import lombok.AllArgsConstructor;
@@ -17,13 +18,14 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class AuthService {
     private final UserService userService;
+    private final UserRepository userRepository;
     private final JwtTokenRepository jwtTokenRepository;
     private final PasswordUtil passwordUtil = new PasswordUtil();
 
     public ResponseEntity<User> registerUser(String login, String password, String role) {
-        userService.createUser(login, passwordUtil.encode(password), role);
-        User response = userService.getUserByUsername(login);
         CsrfToken token = jwtTokenRepository.generateToken(login);
+        userService.createUser(login, passwordUtil.encode(password), role, token.getToken());
+        User response = userService.getUserByUsername(login);
         MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
         return jwtTokenRepository.saveToken(token, new ResponseEntity<>(response, headers, HttpStatus.OK));
     }
@@ -38,6 +40,8 @@ public class AuthService {
 
         if (passwordUtil.verify(password, response.getPassword())) {
             CsrfToken token = jwtTokenRepository.generateToken(login);
+            response.setToken(token.getToken());
+            userRepository.save(response);
             MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
             return jwtTokenRepository.saveToken(token, new ResponseEntity<>(response, headers, HttpStatus.OK));
         }

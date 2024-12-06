@@ -14,11 +14,12 @@ import lombok.AllArgsConstructor;
 public class UserService {
     private final UserRepository userRepository;
 
-    public void createUser(String login, String passw, String role) {
+    public void createUser(String login, String passw, String role, String token) {
         User newRecord = new User();
         newRecord.setUsername(login);
         newRecord.setPassword(passw);
         newRecord.setRole(role);
+        newRecord.setToken(token);
         userRepository.save(newRecord);
     }
 

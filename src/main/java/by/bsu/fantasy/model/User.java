@@ -25,8 +25,10 @@ public class User {
 
     @Column(unique = true)
     private String username;
-    private String name;
     private String password;
+    private String token;
+
+    private String name;
     private String role;
 
     @OneToMany(mappedBy = "user")
