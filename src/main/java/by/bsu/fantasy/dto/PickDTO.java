@@ -1,8 +1,5 @@
 package by.bsu.fantasy.dto;
 
-import by.bsu.fantasy.model.Player;
-import by.bsu.fantasy.model.Team;
-import by.bsu.fantasy.model.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
