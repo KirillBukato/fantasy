@@ -1,7 +1,9 @@
 package by.bsu.fantasy.controller;
 
+import by.bsu.fantasy.dto.TeamIncomeDTO;
 import by.bsu.fantasy.model.TeamIncome;
 import by.bsu.fantasy.service.TeamIncomeService;
+import by.bsu.fantasy.util.DtoMappingUtil;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,23 +18,32 @@ public class TeamIncomeController {
     }
 
     @GetMapping("/teamIncomes")
-    public List<TeamIncome> getTeamIncomes() {
-        return teamIncomeService.getTeamIncomes();
+    public List<TeamIncomeDTO> getTeamIncomes() {
+        return teamIncomeService.getTeamIncomes()
+                .stream()
+                .map(DtoMappingUtil::convert)
+                .toList();
     }
 
     @GetMapping("/teamIncome/{id}")
-    public TeamIncome getTeamIncome(@PathVariable Long id) {
-        return teamIncomeService.getTeamIncome(id);
+    public TeamIncomeDTO getTeamIncome(@PathVariable Long id) {
+        return DtoMappingUtil.convert(
+                teamIncomeService.getTeamIncome(id)
+        );
     }
 
     @PostMapping("/teamIncome")
-    public TeamIncome addTeamIncome(@RequestBody TeamIncome teamIncome) {
-        return teamIncomeService.addTeamIncome(teamIncome);
+    public TeamIncomeDTO addTeamIncome(@RequestBody TeamIncome teamIncome) {
+        return DtoMappingUtil.convert(
+                teamIncomeService.addTeamIncome(teamIncome)
+        );
     }
 
     @PutMapping("/teamIncome/{id}")
-    public TeamIncome updateTeamIncome(@PathVariable Long id, @RequestBody TeamIncome teamIncome) {
-        return teamIncomeService.updateTeamIncome(id, teamIncome);
+    public TeamIncomeDTO updateTeamIncome(@PathVariable Long id, @RequestBody TeamIncome teamIncome) {
+        return DtoMappingUtil.convert(
+                teamIncomeService.updateTeamIncome(id, teamIncome)
+        );
     }
 
     @DeleteMapping("/teamIncome/{id}")

@@ -15,7 +15,6 @@ public class Pick {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private String name;
     private Double balance;
     private Integer points;
 
@@ -25,7 +24,6 @@ public class Pick {
     @ManyToMany(fetch = FetchType.LAZY)
     private List<Team> teams;
 
-    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
     @ManyToOne(fetch = FetchType.LAZY)
     private User user;
 }

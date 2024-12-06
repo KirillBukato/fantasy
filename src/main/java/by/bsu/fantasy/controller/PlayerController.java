@@ -1,7 +1,9 @@
 package by.bsu.fantasy.controller;
 
+import by.bsu.fantasy.dto.PlayerDTO;
 import by.bsu.fantasy.model.Player;
 import by.bsu.fantasy.service.PlayerService;
+import by.bsu.fantasy.util.DtoMappingUtil;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,23 +17,32 @@ public class PlayerController {
     }
 
     @GetMapping("/players")
-    public List<Player> getPlayers() {
-        return playerService.getPlayers();
+    public List<PlayerDTO> getPlayers() {
+        return playerService.getPlayers()
+                .stream()
+                .map(DtoMappingUtil::convert)
+                .toList();
     }
 
     @GetMapping("/player/{id}")
-    public Player getPlayerById(@PathVariable Long id) {
-        return playerService.getPlayerById(id);
+    public PlayerDTO getPlayerById(@PathVariable Long id) {
+        return DtoMappingUtil.convert(
+                playerService.getPlayerById(id)
+        );
     }
 
     @PostMapping("/player")
-    public Player addPlayer(@RequestBody Player player) {
-        return playerService.addPlayer(player);
+    public PlayerDTO addPlayer(@RequestBody Player player) {
+        return DtoMappingUtil.convert(
+                playerService.addPlayer(player)
+        );
     }
 
     @PutMapping("/player/{id}")
-    public Player updatePlayer(@PathVariable Long id, @RequestBody Player player) {
-        return playerService.updatePlayer(id, player);
+    public PlayerDTO updatePlayer(@PathVariable Long id, @RequestBody Player player) {
+        return DtoMappingUtil.convert(
+                playerService.updatePlayer(id, player)
+        );
     }
 
     @DeleteMapping("/player/{id}")

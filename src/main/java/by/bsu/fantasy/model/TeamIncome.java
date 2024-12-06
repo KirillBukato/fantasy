@@ -19,7 +19,6 @@ public class TeamIncome {
     private String description;
     private Integer amount;
 
-    @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
     @ManyToOne(fetch = FetchType.LAZY)
     private Team team;
 }

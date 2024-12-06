@@ -1,7 +1,9 @@
 package by.bsu.fantasy.controller;
 
+import by.bsu.fantasy.dto.TournamentDTO;
 import by.bsu.fantasy.model.Tournament;
 import by.bsu.fantasy.service.TournamentService;
+import by.bsu.fantasy.util.DtoMappingUtil;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,23 +18,32 @@ public class TournamentController {
     }
 
     @GetMapping("/tournaments")
-    public List<Tournament> getTournaments() {
-        return tournamentService.getTournaments();
+    public List<TournamentDTO> getTournaments() {
+        return tournamentService.getTournaments()
+                .stream()
+                .map(DtoMappingUtil::convert)
+                .toList();
     }
 
     @GetMapping("/tournament/{id}")
-    public Tournament getTournament(@PathVariable Long id) {
-        return tournamentService.getTournament(id);
+    public TournamentDTO getTournament(@PathVariable Long id) {
+        return DtoMappingUtil.convert(
+                tournamentService.getTournament(id)
+        );
     }
 
     @PostMapping("/tournament")
-    public Tournament addTournament(@RequestBody Tournament tournament) {
-        return tournamentService.addTournament(tournament);
+    public TournamentDTO addTournament(@RequestBody Tournament tournament) {
+        return DtoMappingUtil.convert(
+                tournamentService.addTournament(tournament)
+        );
     }
 
     @PutMapping("/tournament/{id}")
-    public Tournament updateTournament(@PathVariable Long id, @RequestBody Tournament tournament) {
-        return tournamentService.updateTournament(id, tournament);
+    public TournamentDTO updateTournament(@PathVariable Long id, @RequestBody Tournament tournament) {
+        return DtoMappingUtil.convert(
+                tournamentService.updateTournament(id, tournament)
+        );
     }
 
     @DeleteMapping("/tournament/{id}")
