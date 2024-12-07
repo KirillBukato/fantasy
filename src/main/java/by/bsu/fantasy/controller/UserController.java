@@ -30,10 +30,10 @@ public class UserController {
     }
 
     @GetMapping("/users/fromtoken")
-    private ResponseEntity<User> getUserFromToken(HttpServletRequest request) {
+    private ResponseEntity<UserDTO> getUserFromToken(HttpServletRequest request) {
         try {
             User user = jwtTokenRepository.getUserFromRequest(request);
-            return new ResponseEntity<>(user, HttpStatus.OK);
+            return new ResponseEntity<>(DtoMappingUtil.convert(user), HttpStatus.OK);
         } catch (RuntimeException e) {
             return new ResponseEntity<>(null, null, HttpStatus.NOT_FOUND);
         }
