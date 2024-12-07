@@ -29,13 +29,15 @@ public class UserController {
                 .toList();
     }
 
+    @SuppressWarnings("null")
     @GetMapping("/users/fromtoken")
     private ResponseEntity<UserDTO> getUserFromToken(HttpServletRequest request) {
+        HttpStatus flag = null;
         try {
-            User user = jwtTokenRepository.getUserFromRequest(request);
+            User user = jwtTokenRepository.getUserFromRequest(request, flag);
             return new ResponseEntity<>(DtoMappingUtil.convert(user), HttpStatus.OK);
         } catch (RuntimeException e) {
-            return new ResponseEntity<>(null, null, HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(null, null, flag);
         }
     }
 }

@@ -1,6 +1,5 @@
 package by.bsu.fantasy.dto;
 
-import by.bsu.fantasy.model.PlayerIncome;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

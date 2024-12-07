@@ -2,9 +2,9 @@ package by.bsu.fantasy.util;
 
 import java.io.IOException;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import by.bsu.fantasy.exceptions.BadTokenException;
 import by.bsu.fantasy.model.User;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -27,9 +27,10 @@ public class JwtCsrfFilter extends OncePerRequestFilter {
                 filterChain.doFilter(request, response);
                 return;
             }
-            User user = jwtTokenRepository.getUserFromRequest(request);
+            HttpStatus flag = null;
+            User user = jwtTokenRepository.getUserFromRequest(request, flag);
             if (user == null) {
-                throw new BadTokenException();
+                response.sendError(HttpServletResponse.SC_NOT_FOUND, "User not found or bad token.");
             }
             filterChain.doFilter(request, response);
         } catch(RuntimeException e) {

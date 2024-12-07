@@ -7,6 +7,7 @@ import java.time.ZoneId;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.security.web.csrf.DefaultCsrfToken;
@@ -50,8 +51,12 @@ public class JwtTokenRepository {
         }
     }
 
-    public User getUserFromRequest(HttpServletRequest authRequest) {
+    public User getUserFromRequest(HttpServletRequest authRequest, HttpStatus flag) {
         try {
+            if (getTokenFromRequest(authRequest) == null) {
+                flag = HttpStatus.BAD_REQUEST;
+                return null;
+            }
             Claims claims = Jwts.parserBuilder()
                 .setSigningKey(JwtTokenRepository.getSecret())
                 .build()
@@ -59,15 +64,22 @@ public class JwtTokenRepository {
                 .getBody();
 
             if (claims.getExpiration().before(new Date())) {
+                flag = HttpStatus.BAD_REQUEST;
                 return null;
             }
             try {
                 User record = userService.getUserByUsername(claims.getSubject());
+                flag = HttpStatus.OK;
                 return record;
             } catch(RuntimeException e) {
+                flag = HttpStatus.NOT_FOUND;
                 return null;
             }
         } catch(NullPointerException e) {
+            flag = HttpStatus.BAD_REQUEST;
+            return null;
+        } catch(io.jsonwebtoken.ExpiredJwtException e) {
+            flag = HttpStatus.BAD_REQUEST;
             return null;
         }
     }
