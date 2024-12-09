@@ -21,8 +21,7 @@ public class AuthService {
     private final PasswordUtil passwordUtil = new PasswordUtil();
 
     public ResponseEntity<User> registerUser(String login, String password, String role) {
-        userService.createUser(login, passwordUtil.encode(password), role);
-        User response = userService.getUserByUsername(login);
+        User response = userService.createUser(login, passwordUtil.encode(password), role);
         CsrfToken token = jwtTokenRepository.generateToken(login);
         MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
         return jwtTokenRepository.saveToken(token, new ResponseEntity<>(response, headers, HttpStatus.OK));

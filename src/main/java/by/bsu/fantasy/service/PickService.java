@@ -9,19 +9,15 @@ import by.bsu.fantasy.repository.PickRepository;
 
 import by.bsu.fantasy.repository.PlayerRepository;
 import by.bsu.fantasy.repository.UserRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@AllArgsConstructor
 @Service
 public class PickService {
     private final PickRepository pickRepository;
-    private final UserRepository userRepository;
-
-    public PickService(PickRepository pickRepository, UserRepository userRepository) {
-        this.pickRepository = pickRepository;
-        this.userRepository = userRepository;
-    }
 
     public List<Pick> getPicks() {
         return pickRepository
@@ -43,10 +39,9 @@ public class PickService {
         Pick pick = new Pick();
         pick.setBalance(1000.);
         pick.setUser(user);
-        user.getPicks().add(pick);
-        userRepository.save(user);
-        return pickRepository
-                .save(pick);
+        Pick savedPick = pickRepository.save(pick);
+        user.getPicks().add(savedPick);
+        return savedPick;
     }
 
     public Pick updatePick(Long id, Pick pick) {

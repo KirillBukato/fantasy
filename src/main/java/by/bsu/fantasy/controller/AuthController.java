@@ -18,14 +18,11 @@ import lombok.AllArgsConstructor;
 public class AuthController {
 
     private final AuthService authService;
-    private final PickService pickService;
 
     @PostMapping("/register")
     public ResponseEntity<UserDTO> registerUser(@RequestBody AuthRequest authRequest) {
         ResponseEntity<User> response = authService.registerUser(authRequest.getLogin(), authRequest.getPassword(), "basic_user");
-        User user = response.getBody();
-        pickService.createNewPick(user);
-        return new ResponseEntity<>(DtoMappingUtil.convert(user), response.getHeaders(), response.getStatusCode());
+        return new ResponseEntity<>(DtoMappingUtil.convert(response.getBody()), response.getHeaders(), response.getStatusCode());
     }
 
     @PostMapping("/login")

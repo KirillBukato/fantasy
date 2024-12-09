@@ -23,7 +23,7 @@ public class UserController {
 
     @GetMapping("/users/all")
     private List<UserDTO> getAll() {
-        return userService.getUSers()
+        return userService.getUsers()
                 .stream()
                 .map(DtoMappingUtil::convert)
                 .toList();

@@ -1,7 +1,10 @@
 package by.bsu.fantasy.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import by.bsu.fantasy.model.Pick;
+import by.bsu.fantasy.repository.PickRepository;
 import org.springframework.stereotype.Service;
 
 import by.bsu.fantasy.exceptions.LoginFailedException;
@@ -13,13 +16,17 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class UserService {
     private final UserRepository userRepository;
+    private final PickService pickService;
 
-    public void createUser(String login, String passw, String role) {
+    public User createUser(String login, String passw, String role) {
         User newRecord = new User();
         newRecord.setUsername(login);
         newRecord.setPassword(passw);
         newRecord.setRole(role);
-        userRepository.save(newRecord);
+        newRecord.setPicks(new ArrayList<>());
+        User user = userRepository.save(newRecord);
+        pickService.createNewPick(user);
+        return userRepository.save(user);
     }
 
     public User getUserByUsername(String username) {
@@ -28,7 +35,7 @@ public class UserService {
                 .orElseThrow(() -> new LoginFailedException());
     }
 
-    public List<User> getUSers() {
+    public List<User> getUsers() {
         return userRepository
                 .findAll();
     }
