@@ -40,6 +40,7 @@ public class PickService {
         Pick pick = new Pick();
         pick.setBalance(1000.);
         pick.setUser(user);
+        user.getPicks().add(pick);
         return pickRepository
                 .save(pick);
     }
