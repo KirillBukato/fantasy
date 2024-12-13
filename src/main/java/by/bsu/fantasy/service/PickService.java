@@ -38,6 +38,7 @@ public class PickService {
     public Pick createNewPick(User user) {
         Pick pick = new Pick();
         pick.setBalance(1000.);
+        pick.setPoints(0);
         pick.setUser(user);
         Pick savedPick = pickRepository.save(pick);
         user.getPicks().add(savedPick);
