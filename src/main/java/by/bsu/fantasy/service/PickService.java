@@ -7,8 +7,6 @@ import by.bsu.fantasy.model.TeamIncome;
 import by.bsu.fantasy.model.User;
 import by.bsu.fantasy.repository.PickRepository;
 
-import by.bsu.fantasy.repository.PlayerRepository;
-import by.bsu.fantasy.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 

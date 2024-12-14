@@ -1,6 +1,7 @@
 package by.bsu.fantasy.service;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.stereotype.Service;
@@ -24,8 +25,10 @@ public class AuthService {
 
     public ResponseEntity<User> registerUser(String login, String password, String role) {
         CsrfToken token = jwtTokenRepository.generateToken(login);
-        userService.createUser(login, passwordUtil.encode(password), role, token.getToken());
-        User response = userService.getUserByUsername(login);
+        User response = userService.createUser(login, passwordUtil.encode(password), role, token.getToken());
+        if (response == null) {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
         MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
         return jwtTokenRepository.saveToken(token, new ResponseEntity<>(response, headers, HttpStatus.OK));
     }

@@ -3,8 +3,6 @@ package by.bsu.fantasy.service;
 import java.util.ArrayList;
 import java.util.List;
 
-import by.bsu.fantasy.model.Pick;
-import by.bsu.fantasy.repository.PickRepository;
 import org.springframework.stereotype.Service;
 
 import by.bsu.fantasy.exceptions.LoginFailedException;
@@ -18,7 +16,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final PickService pickService;
 
-    public void createUser(String login, String passw, String role, String token) {
+    public User createUser(String login, String passw, String role, String token) {
         User newRecord = new User();
         newRecord.setUsername(login);
         newRecord.setPassword(passw);
@@ -26,9 +24,14 @@ public class UserService {
         newRecord.setToken(token);
 
         newRecord.setPicks(new ArrayList<>());
+        if (getUsers().stream()
+            .filter(el -> el.getUsername().equals(login))
+            .count() != 0) {
+                return null;
+            }
         User user = userRepository.save(newRecord);
         pickService.createNewPick(user);
-        return userRepository.save(user);
+        return user;
     }
 
     public User getUserByUsername(String username) {

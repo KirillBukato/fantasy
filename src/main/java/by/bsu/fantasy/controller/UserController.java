@@ -25,7 +25,7 @@ public class UserController {
 
     @GetMapping("/users/all")
     private ResponseEntity<List<UserDTO>> getAll(HttpServletRequest request) {
-        List<UserDTO> list = userService.getUSers()
+        List<UserDTO> list = userService.getUsers()
 
                 .stream()
                 .map(DtoMappingUtil::convert)
