@@ -72,4 +72,19 @@ public class PickController {
                 pickTeamService.linkTeamToPick(id, teamId)
         );
     }
+
+    @DeleteMapping("/pick/{id}/removePlayer/{playerId}")
+    public PickDTO removePlayer(@PathVariable Long id, @PathVariable Long playerId) {
+        return DtoMappingUtil.convert(
+                pickPlayerService.unlinkPlayerFromPick(id, playerId)
+        );
+    }
+
+    @DeleteMapping("/pick/{id}/removeTeam/{teamId}")
+    public PickDTO removeTeam(@PathVariable Long id, @PathVariable Long teamId) {
+        return DtoMappingUtil.convert(
+                pickTeamService.unlinkTeamFromPick(id, teamId)
+        );
+    }
+
 }

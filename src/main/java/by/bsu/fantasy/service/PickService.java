@@ -7,8 +7,6 @@ import by.bsu.fantasy.model.TeamIncome;
 import by.bsu.fantasy.model.User;
 import by.bsu.fantasy.repository.PickRepository;
 
-import by.bsu.fantasy.repository.PlayerRepository;
-import by.bsu.fantasy.repository.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -38,6 +36,7 @@ public class PickService {
     public Pick createNewPick(User user) {
         Pick pick = new Pick();
         pick.setBalance(1000.);
+        pick.setPoints(0);
         pick.setUser(user);
         Pick savedPick = pickRepository.save(pick);
         user.getPicks().add(savedPick);

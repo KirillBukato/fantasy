@@ -16,6 +16,7 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
 import by.bsu.fantasy.model.User;
+import by.bsu.fantasy.repository.UserRepository;
 import by.bsu.fantasy.service.UserService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
@@ -23,8 +24,10 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
 @Repository
+@RequiredArgsConstructor
 public class JwtTokenRepository {
 
     @Getter
@@ -33,11 +36,16 @@ public class JwtTokenRepository {
     @Value("${by.fantasy.token_expire_after}")
     private String expireAfter;
 
-    private final UserService userService;
+    @Value("${by.fantasy.token_exchange}")
+    private String exchange;
 
-    public JwtTokenRepository(UserService us) {
-        this.userService = us;
-    }
+    private final UserService userService;
+    private final UserRepository userRepository;
+    private final ResponseGenerator gen;
+
+    // public JwtTokenRepository(UserService us) {
+    //     this.userService = us;
+    // }
 
     public String getTokenFromRequest(HttpServletRequest authRequest) {
         if (authRequest.getHeader("x-csrf-token") == null) {
@@ -84,6 +92,16 @@ public class JwtTokenRepository {
         }
     }
 
+    public User getAuthentificatedUserFromToken(String token) {
+        Claims claims = Jwts.parserBuilder()
+            .setSigningKey(JwtTokenRepository.getSecret())
+            .build()
+            .parseClaimsJws(token)
+            .getBody();
+        User user = userService.getUserByUsername(claims.getSubject());
+        return user;
+    }
+
     @SuppressWarnings("deprecation")
     public CsrfToken generateToken(String username) {
         String id = UUID.randomUUID().toString().replace("-", "");
@@ -116,5 +134,30 @@ public class JwtTokenRepository {
             return new ResponseEntity<T>(response.getBody(), headers, response.getStatusCode());
         }
         return null;
+    }
+
+    public <T> ResponseEntity<T> sign(ResponseEntity<T> response, String token) {
+        if (exchange.equals("0")) {
+            return response;
+        }
+        if (!(response.getStatusCode().value() == 200)) {
+            return response;
+        }
+        CsrfToken csrfToken = generateToken(getAuthentificatedUserFromToken(token).getUsername());
+        User user = getAuthentificatedUserFromToken(token);
+        user.setToken(csrfToken.getToken());
+        userRepository.save(user);
+        return saveToken(csrfToken, response);
+    }
+
+    public <T> ResponseEntity<T> sign(T response, String token) {
+        if (exchange.equals("0")) {
+            return gen.generate(response);
+        }
+        CsrfToken csrfToken = generateToken(getAuthentificatedUserFromToken(token).getUsername());
+        User user = getAuthentificatedUserFromToken(token);
+        user.setToken(csrfToken.getToken());
+        userRepository.save(user);
+        return saveToken(csrfToken, gen.generate(response));
     }
 }

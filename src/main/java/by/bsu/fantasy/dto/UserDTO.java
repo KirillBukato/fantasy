@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 
 import java.util.List;
 
+// TODO: проверка на нулы во всех конверторах
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

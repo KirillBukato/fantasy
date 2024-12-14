@@ -35,4 +35,13 @@ public class PickPlayerService {
         pick.getPlayers().add(player);
         return pickService.updatePick(pickId, pick);
     }
+
+    public Pick unlinkPlayerFromPick(Long pickId, Long playerId) {
+        Pick pick = pickService.getPickById(pickId);
+        Player player = playerService.getPlayerById(playerId);
+
+        pick.setBalance(pick.getBalance() + player.getPrice());
+        pick.getPlayers().remove(player);
+        return pickService.updatePick(pickId, pick);
+    }
 }
