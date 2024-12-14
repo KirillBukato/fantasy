@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import by.bsu.fantasy.model.User;
 import by.bsu.fantasy.service.UserService;
 import by.bsu.fantasy.util.JwtTokenRepository;
+import by.bsu.fantasy.util.ResponseGenerator;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
 
@@ -20,13 +21,16 @@ import lombok.AllArgsConstructor;
 public class UserController {
     private final UserService userService;
     private final JwtTokenRepository jwtTokenRepository;
+    private final ResponseGenerator gen;
 
     @GetMapping("/users/all")
-    private List<UserDTO> getAll() {
-        return userService.getUsers()
+    private ResponseEntity<List<UserDTO>> getAll(HttpServletRequest request) {
+        List<UserDTO> list = userService.getUSers()
+
                 .stream()
                 .map(DtoMappingUtil::convert)
                 .toList();
+        return jwtTokenRepository.sign(gen.generate(list), jwtTokenRepository.getTokenFromRequest(request));
     }
 
     @SuppressWarnings("null")
