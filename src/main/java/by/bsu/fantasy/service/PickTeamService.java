@@ -34,4 +34,13 @@ public class PickTeamService {
         return pickService.updatePick(pickId, pick);
     }
 
+    public Pick unlinkTeamFromPick(Long pickId, Long teamId) {
+        Pick pick = pickService.getPickById(pickId);
+        Team team = teamService.getTeamById(teamId);
+
+        pick.setBalance(pick.getBalance() + team.getPrice());
+        pick.getTeams().remove(team);
+        return pickService.updatePick(pickId, pick);
+    }
+
 }

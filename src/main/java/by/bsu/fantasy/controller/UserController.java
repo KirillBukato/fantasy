@@ -26,6 +26,7 @@ public class UserController {
     @GetMapping("/users/all")
     private ResponseEntity<List<UserDTO>> getAll(HttpServletRequest request) {
         List<UserDTO> list = userService.getUSers()
+
                 .stream()
                 .map(DtoMappingUtil::convert)
                 .toList();

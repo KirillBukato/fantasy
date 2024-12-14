@@ -1,5 +1,10 @@
 package by.bsu.fantasy.controller;
 
+
+import by.bsu.fantasy.dto.UserDTO;
+import by.bsu.fantasy.service.PickService;
+import by.bsu.fantasy.util.DtoMappingUtil;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,12 +23,14 @@ public class AuthController {
     private final AuthService authService;
 
     @PostMapping("/register")
-    public ResponseEntity<User> registerUser(@RequestBody AuthRequest authRequest) {
-        return authService.registerUser(authRequest.getLogin(), authRequest.getPassword(), "basic_user");
+    public ResponseEntity<UserDTO> registerUser(@RequestBody AuthRequest authRequest) {
+        ResponseEntity<User> response = authService.registerUser(authRequest.getLogin(), authRequest.getPassword(), "basic_user");
+        return new ResponseEntity<>(DtoMappingUtil.convert(response.getBody()), response.getHeaders(), response.getStatusCode());
     }
 
-    @GetMapping("/login")
-    public ResponseEntity<User> loginUser(@RequestBody AuthRequest authRequest) {
-        return authService.loginUser(authRequest.getLogin(), authRequest.getPassword());
+    @PostMapping("/login")
+    public ResponseEntity<UserDTO> loginUser(@RequestBody AuthRequest authRequest) {
+        ResponseEntity<User> response = authService.loginUser(authRequest.getLogin(), authRequest.getPassword());
+        return new ResponseEntity<>(DtoMappingUtil.convert(response.getBody()), response.getHeaders(), response.getStatusCode());
     }
 }

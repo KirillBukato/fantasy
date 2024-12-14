@@ -1,0 +1,4 @@
+GET http://localhost:8080/picks
+Accept: application/json
+x-csrf-token: _csrf
+_csrf: eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiI0Mzg3YmJiNzUwZTA0YjI2OGVkOWM1MWY3NTU3Y2E4YiIsInN1YiI6ImtpcmlsbDEzIiwiaWF0IjoxNzMzNzc0MjgzLCJuYmYiOjE3MzM3NzQyODMsImV4cCI6MTczMzc3NjA4M30.5wyiv5YgXjJLoEINkGhqQ47TiWlMH9IoP1-aXd4DY8w
