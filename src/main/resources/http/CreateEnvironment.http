@@ -1,0 +1,137 @@
+POST http://localhost:8080/register
+Accept: application/json
+Content-Type: application/json
+
+{
+  "login": "kirill14",
+  "password": "12345678"
+}
+
+> {%
+    client.global.set("token", response.headers.valueOf("_csrf"))
+    console.log(response.headers.valueOf("_csrf"))
+%}
+
+###
+POST http://localhost:8080/team
+Content-Type: application/json
+x-csrf-token: _csrf
+_csrf: {{token}}
+
+{
+  "name": "olegi",
+  "points": 10,
+  "price": 14
+}
+
+###
+POST http://localhost:8080/team
+Content-Type: application/json
+x-csrf-token: _csrf
+_csrf: {{token}}
+
+{
+  "name": "shak",
+  "points": 10,
+  "price": 14
+}
+
+###
+POST http://localhost:8080/team
+Content-Type: application/json
+x-csrf-token: _csrf
+_csrf: {{token}}
+
+{
+  "name": "qwerty",
+  "points": 20,
+  "price": 12
+}
+
+###
+POST http://localhost:8080/team
+Content-Type: application/json
+x-csrf-token: _csrf
+_csrf: {{token}}
+
+{
+  "name": "wouqie",
+  "points": 5,
+  "price": 8
+}
+
+###
+POST http://localhost:8080/team
+Content-Type: application/json
+x-csrf-token: _csrf
+_csrf: {{token}}
+
+{
+  "name": "khhds",
+  "points": 10,
+  "price": 4
+}
+
+###
+POST http://localhost:8080/player
+Accept: application/json
+Content-Type: application/json
+x-csrf-token: _csrf
+_csrf: {{token}}
+
+{
+  "name": "oleg",
+  "price": 10,
+  "points": 4,
+  "team": {
+    "id": 1
+  }
+}
+
+###
+POST http://localhost:8080/player
+Accept: application/json
+Content-Type: application/json
+x-csrf-token: _csrf
+_csrf: {{token}}
+
+{
+  "name": "vanya",
+  "price": 15,
+  "points": 10,
+  "team": {
+    "id": 2
+  }
+}
+
+###
+POST http://localhost:8080/player
+Accept: application/json
+Content-Type: application/json
+x-csrf-token: _csrf
+_csrf: {{token}}
+
+{
+  "name": "kirill",
+  "price": 20,
+  "points": 14,
+  "team": {
+    "id": 1
+  }
+}
+
+###
+POST http://localhost:8080/player
+Accept: application/json
+Content-Type: application/json
+x-csrf-token: _csrf
+_csrf: {{token}}
+
+{
+  "name": "vova",
+  "price": 6,
+  "points": 4,
+  "team": {
+    "id": 3
+  }
+}
