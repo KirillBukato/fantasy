@@ -1,5 +1,6 @@
 package by.bsu.fantasy.service;
 
+import by.bsu.fantasy.model.AuthRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
@@ -23,9 +24,12 @@ public class AuthService {
     private final JwtTokenRepository jwtTokenRepository;
     private final PasswordUtil passwordUtil = new PasswordUtil();
 
-    public ResponseEntity<User> registerUser(String login, String password, String role) {
+    public ResponseEntity<User> registerUser(AuthRequest authRequest, String role) {
+        String login = authRequest.getLogin();
+        String password = authRequest.getPassword();
+
         CsrfToken token = jwtTokenRepository.generateToken(login);
-        User response = userService.createUser(login, passwordUtil.encode(password), role, token.getToken());
+        User response = userService.createUser(login, passwordUtil.encode(password), authRequest.getName(), role, token.getToken());
         if (response == null) {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }

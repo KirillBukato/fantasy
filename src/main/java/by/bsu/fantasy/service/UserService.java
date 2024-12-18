@@ -16,12 +16,13 @@ public class UserService {
     private final UserRepository userRepository;
     private final PickService pickService;
 
-    public User createUser(String login, String passw, String role, String token) {
+    public User createUser(String login, String passw, String role, String name, String token) {
         User newRecord = new User();
         newRecord.setUsername(login);
         newRecord.setPassword(passw);
         newRecord.setRole(role);
         newRecord.setToken(token);
+        newRecord.setName(name);
 
         newRecord.setPicks(new ArrayList<>());
         if (getUsers().stream()
