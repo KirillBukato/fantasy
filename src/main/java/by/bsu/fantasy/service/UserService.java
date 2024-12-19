@@ -16,7 +16,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final PickService pickService;
 
-    public User createUser(String login, String passw, String role, String name, String token) {
+    public User createUser(String login, String passw, String name, String role, String token) {
         User newRecord = new User();
         newRecord.setUsername(login);
         newRecord.setPassword(passw);
