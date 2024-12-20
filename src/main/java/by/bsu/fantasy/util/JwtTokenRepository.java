@@ -43,10 +43,6 @@ public class JwtTokenRepository {
     private final UserRepository userRepository;
     private final ResponseGenerator gen;
 
-    // public JwtTokenRepository(UserService us) {
-    //     this.userService = us;
-    // }
-
     public String getTokenFromRequest(HttpServletRequest authRequest) {
         if (authRequest.getHeader("x-csrf-token") == null) {
             return null;
