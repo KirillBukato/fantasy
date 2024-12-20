@@ -1,0 +1,16 @@
+PUT localhost:8080/pick/302
+Accept: application/json
+Content-Type: application/json
+x-csrf-token: _csrf
+_csrf: eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiJlNmU5MTFiNjI4OTQ0ZGNlODY0YzBjNjU5ZGVkNGNmNSIsInN1YiI6ImtpcmlsbDE0IiwiaWF0IjoxNzM0MTcwMDA1LCJuYmYiOjE3MzQxNzAwMDUsImV4cCI6MTczNDE3MTgwNX0.v1BX0eFY8quUwrvLS3Gl5Ryfd5EqK1Q-opmAeMyHCHU
+
+{
+    "id": 302,
+    "balance": 1000.0,
+    "points": 0,
+    "players": [],
+    "teams": [],
+    "user": {
+        "id": 802
+    }
+}

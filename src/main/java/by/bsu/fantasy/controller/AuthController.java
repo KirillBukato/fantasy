@@ -22,7 +22,7 @@ public class AuthController {
 
     @PostMapping("/register")
     public ResponseEntity<UserDTO> registerUser(@RequestBody AuthRequest authRequest) {
-        ResponseEntity<User> response = authService.registerUser(authRequest.getLogin(), authRequest.getPassword(), "basic_user");
+        ResponseEntity<User> response = authService.registerUser(authRequest, "basic_user");
         return new ResponseEntity<>(DtoMappingUtil.convert(response.getBody()), response.getHeaders(), response.getStatusCode());
     }
 
