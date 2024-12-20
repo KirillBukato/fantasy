@@ -66,7 +66,7 @@ public class PickController {
         pickService.deletePick(id);
     }
 
-    @SetAuthPolicy(policy = AuthPolicy.ADMIN)
+    @SetAuthPolicy(policy = AuthPolicy.BASIC_USER)
     @PutMapping("/pick/{id}/addPlayer/{playerId}")
     public PickDTO addPlayer(@PathVariable Long id, @PathVariable Long playerId) {
         return DtoMappingUtil.convert(
@@ -74,7 +74,7 @@ public class PickController {
         );
     }
 
-    @SetAuthPolicy(policy = AuthPolicy.ADMIN)
+    @SetAuthPolicy(policy = AuthPolicy.BASIC_USER)
     @PutMapping("/pick/{id}/addTeam/{teamId}")
     public PickDTO addTeam(@PathVariable Long id, @PathVariable Long teamId) {
         return DtoMappingUtil.convert(
@@ -82,7 +82,7 @@ public class PickController {
         );
     }
 
-    @SetAuthPolicy(policy = AuthPolicy.ADMIN)
+    @SetAuthPolicy(policy = AuthPolicy.BASIC_USER)
     @DeleteMapping("/pick/{id}/removePlayer/{playerId}")
     public PickDTO removePlayer(@PathVariable Long id, @PathVariable Long playerId) {
         return DtoMappingUtil.convert(
@@ -90,7 +90,7 @@ public class PickController {
         );
     }
 
-    @SetAuthPolicy(policy = AuthPolicy.ADMIN)
+    @SetAuthPolicy(policy = AuthPolicy.BASIC_USER)
     @DeleteMapping("/pick/{id}/removeTeam/{teamId}")
     public PickDTO removeTeam(@PathVariable Long id, @PathVariable Long teamId) {
         return DtoMappingUtil.convert(
