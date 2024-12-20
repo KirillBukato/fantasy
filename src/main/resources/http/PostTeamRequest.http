@@ -1,7 +1,7 @@
 POST http://localhost:8080/team
 Content-Type: application/json
 x-csrf-token: _csrf
-_csrf: eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiJhYjUzYWZmMjA4MDY0MGNjOThlMzAyMWQ5NDhjZmU5MSIsInN1YiI6InZhZHppbSIsImlhdCI6MTczMzM5NTE0OSwibmJmIjoxNzMzMzk1MTQ5LCJleHAiOjE3MzMzOTY5NDl9.rmflAj7WdjRJYQGFzmDdt07bG82CvLdLqrot3qfTlNc
+_csrf: eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiIyMDI1NTBlNzdkNzQ0M2Y3YjcxMmFmYWQxYTkwZGNiMiIsInN1YiI6ImtpcmlsbDE0IiwiaWF0IjoxNzM0NjgzODgwLCJuYmYiOjE3MzQ2ODM4ODAsImV4cCI6MTczNDY4NTY4MH0.VDUCs3zDzgSIoS5n60UrjqF-AX9XZeKoE9W6cO4Phek
 
 {
   "name": "olegi2",

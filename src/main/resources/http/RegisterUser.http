@@ -3,6 +3,6 @@ Accept: application/json
 Content-Type: application/json
 
 {
-  "login": "kirill15",
-  "password": "12345678"
+  "login": "kirill17",
+  "password": "Svetlana Vidisheva is the best!"
 }
