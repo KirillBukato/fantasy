@@ -16,7 +16,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final PickService pickService;
 
-    public User createUser(String login, String passw, String role, String token) {
+    public User createUser(String login, String passw, String name, String role, String token) {
         if (getUsers().stream().anyMatch(el -> el.getUsername().equals(login)))
         {
             return null;
@@ -25,9 +25,10 @@ public class UserService {
         User newRecord = new User();
         newRecord.setUsername(login);
         newRecord.setPassword(passw);
-        newRecord.setName(login);
         newRecord.setRole(role);
-        newRecord.setToken(token);
+        newRecord.setBlockedTokens(new HashSet<>());
+        newRecord.setName(name);
+
         newRecord.setPicks(new ArrayList<>());
 
         User user = userRepository.save(newRecord);

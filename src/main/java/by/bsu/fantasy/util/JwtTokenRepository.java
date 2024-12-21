@@ -43,10 +43,6 @@ public class JwtTokenRepository {
     private final UserRepository userRepository;
     private final ResponseGenerator gen;
 
-    // public JwtTokenRepository(UserService us) {
-    //     this.userService = us;
-    // }
-
     public String getTokenFromRequest(HttpServletRequest authRequest) {
         if (authRequest.getHeader("x-csrf-token") == null) {
             return null;
@@ -90,6 +86,11 @@ public class JwtTokenRepository {
             flag = HttpStatus.BAD_REQUEST;
             return null;
         }
+    }
+
+    public User getUserFromRequest(HttpServletRequest authRequest) {
+        HttpStatus unused = HttpStatus.OK;
+        return getUserFromRequest(authRequest, unused);
     }
 
     public User getAuthentificatedUserFromToken(String token) {
@@ -145,7 +146,6 @@ public class JwtTokenRepository {
         }
         CsrfToken csrfToken = generateToken(getAuthentificatedUserFromToken(token).getUsername());
         User user = getAuthentificatedUserFromToken(token);
-        user.setToken(csrfToken.getToken());
         userRepository.save(user);
         return saveToken(csrfToken, response);
     }
@@ -156,7 +156,6 @@ public class JwtTokenRepository {
         }
         CsrfToken csrfToken = generateToken(getAuthentificatedUserFromToken(token).getUsername());
         User user = getAuthentificatedUserFromToken(token);
-        user.setToken(csrfToken.getToken());
         userRepository.save(user);
         return saveToken(csrfToken, gen.generate(response));
     }

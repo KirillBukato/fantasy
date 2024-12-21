@@ -3,7 +3,10 @@ package by.bsu.fantasy.controller;
 import by.bsu.fantasy.dto.TournamentDTO;
 import by.bsu.fantasy.model.Tournament;
 import by.bsu.fantasy.service.TournamentService;
+import by.bsu.fantasy.util.AuthPolicy;
 import by.bsu.fantasy.util.DtoMappingUtil;
+import by.bsu.fantasy.util.SetAuthPolicy;
+
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,6 +20,7 @@ public class TournamentController {
         this.tournamentService = tournamentService;
     }
 
+    @SetAuthPolicy(policy = AuthPolicy.USER)
     @GetMapping("/tournaments")
     public List<TournamentDTO> getTournaments() {
         return tournamentService.getTournaments()
@@ -25,6 +29,7 @@ public class TournamentController {
                 .toList();
     }
 
+    @SetAuthPolicy(policy = AuthPolicy.USER)
     @GetMapping("/tournament/{id}")
     public TournamentDTO getTournament(@PathVariable Long id) {
         return DtoMappingUtil.convert(
@@ -32,6 +37,7 @@ public class TournamentController {
         );
     }
 
+    @SetAuthPolicy(policy = AuthPolicy.ADMIN)
     @PostMapping("/tournament")
     public TournamentDTO addTournament(@RequestBody Tournament tournament) {
         return DtoMappingUtil.convert(
@@ -39,6 +45,7 @@ public class TournamentController {
         );
     }
 
+    @SetAuthPolicy(policy = AuthPolicy.ADMIN)
     @PutMapping("/tournament/{id}")
     public TournamentDTO updateTournament(@PathVariable Long id, @RequestBody Tournament tournament) {
         return DtoMappingUtil.convert(
@@ -46,6 +53,7 @@ public class TournamentController {
         );
     }
 
+    @SetAuthPolicy(policy = AuthPolicy.ADMIN)
     @DeleteMapping("/tournament/{id}")
     public void deleteTournament(@PathVariable Long id) {
         tournamentService.deleteTournament(id);

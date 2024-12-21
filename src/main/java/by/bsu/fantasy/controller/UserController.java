@@ -3,6 +3,7 @@ package by.bsu.fantasy.controller;
 import java.util.List;
 
 import by.bsu.fantasy.dto.UserDTO;
+import by.bsu.fantasy.util.AuthPolicy;
 import by.bsu.fantasy.util.DtoMappingUtil;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +14,7 @@ import by.bsu.fantasy.model.User;
 import by.bsu.fantasy.service.UserService;
 import by.bsu.fantasy.util.JwtTokenRepository;
 import by.bsu.fantasy.util.ResponseGenerator;
+import by.bsu.fantasy.util.SetAuthPolicy;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
 
@@ -23,6 +25,7 @@ public class UserController {
     private final JwtTokenRepository jwtTokenRepository;
     private final ResponseGenerator gen;
 
+    @SetAuthPolicy(policy = AuthPolicy.ADMIN)
     @GetMapping("/users/all")
     private ResponseEntity<List<UserDTO>> getAll(HttpServletRequest request) {
         List<UserDTO> list = userService.getUsers()
@@ -33,7 +36,7 @@ public class UserController {
         return jwtTokenRepository.sign(gen.generate(list), jwtTokenRepository.getTokenFromRequest(request));
     }
 
-    @SuppressWarnings("null")
+    @SetAuthPolicy(policy = AuthPolicy.USER)
     @GetMapping("/users/fromtoken")
     private ResponseEntity<UserDTO> getUserFromToken(HttpServletRequest request) {
         HttpStatus flag = null;
