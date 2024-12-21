@@ -64,9 +64,8 @@ public class JwtCsrfFilter extends OncePerRequestFilter {
                 response.sendError(HttpServletResponse.SC_NOT_FOUND, "User not found or bad token.");
                 return;
             }
-            if (!user.getTokens().contains(jwtTokenRepository.getTokenFromRequest(request))) {
-                System.err.println(user.getTokens());
-                response.sendError(HttpServletResponse.SC_CONFLICT, "This token expired because new token was created for this user.");
+            if (user.getBlockedTokens().contains(jwtTokenRepository.getTokenFromRequest(request))) {
+                response.sendError(HttpServletResponse.SC_CONFLICT, "Token is banned. Try to login again.");
                 return;
             }
             AuthPolicy rights = authPolicyMap.containsKey(makePath(request)) ? authPolicyMap.get(makePath(request)) : AuthPolicy.ADMIN;
@@ -74,11 +73,11 @@ public class JwtCsrfFilter extends OncePerRequestFilter {
             case USER:
                 if (user.getRole().equals("basic_user") || user.getRole().equals("admin")) {
                     filterChain.doFilter(request, response);
+                    return;
                 } else {
                     response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "User is unauthorized.");
                     return;
                 }
-                break;
         
             case ADMIN:
                 if (user.getRole().equals("admin")) {
@@ -93,6 +92,7 @@ public class JwtCsrfFilter extends OncePerRequestFilter {
                 break;
             }
         } catch(RuntimeException e) {
+            e.printStackTrace();
             response.sendError(HttpServletResponse.SC_FORBIDDEN, "Access denied.");
         }
     }
