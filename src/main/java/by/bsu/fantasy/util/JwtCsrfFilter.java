@@ -2,7 +2,10 @@ package by.bsu.fantasy.util;
 
 import java.io.IOException;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -29,6 +32,7 @@ public class JwtCsrfFilter extends OncePerRequestFilter {
     private JwtTokenRepository jwtTokenRepository;
 
     private Map<String, AuthPolicy> authPolicyMap;
+    private static String dummy = "!PAR!";
 
     public JwtCsrfFilter(JwtTokenRepository jwtTokenRepository) {
         this.jwtTokenRepository = jwtTokenRepository;
@@ -47,6 +51,7 @@ public class JwtCsrfFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
+        System.err.println(makePath(request));
         try {
             request.setAttribute(HttpServletResponse.class.getName(), response);
             if (authPolicyMap.containsKey(makePath(request)) && authPolicyMap.get(makePath(request)) == AuthPolicy.ALL) {
@@ -59,14 +64,14 @@ public class JwtCsrfFilter extends OncePerRequestFilter {
                 response.sendError(HttpServletResponse.SC_NOT_FOUND, "User not found or bad token.");
                 return;
             }
-            if (!user.getToken().equals(jwtTokenRepository.getTokenFromRequest(request))) {
-                System.err.println(user.getToken());
+            if (!user.getTokens().contains(jwtTokenRepository.getTokenFromRequest(request))) {
+                System.err.println(user.getTokens());
                 response.sendError(HttpServletResponse.SC_CONFLICT, "This token expired because new token was created for this user.");
                 return;
             }
             AuthPolicy rights = authPolicyMap.containsKey(makePath(request)) ? authPolicyMap.get(makePath(request)) : AuthPolicy.ADMIN;
             switch (rights) {
-            case BASIC_USER:
+            case USER:
                 if (user.getRole().equals("basic_user") || user.getRole().equals("admin")) {
                     filterChain.doFilter(request, response);
                 } else {
@@ -93,20 +98,41 @@ public class JwtCsrfFilter extends OncePerRequestFilter {
     }
 
     private String getPath(Method method) {
+        String ans = null;
         if (method.isAnnotationPresent(PostMapping.class)) {
-            return "POST" + method.getAnnotation(PostMapping.class).value()[0];
+            ans = "POST" + method.getAnnotation(PostMapping.class).value()[0];
         } else if (method.isAnnotationPresent(GetMapping.class)) {
-            return "GET" + method.getAnnotation(GetMapping.class).value()[0];
+            ans = "GET" + method.getAnnotation(GetMapping.class).value()[0];
         } else if (method.isAnnotationPresent(DeleteMapping.class)) {
-            return "DELETE" + method.getAnnotation(DeleteMapping.class).value()[0];
+            ans = "DELETE" + method.getAnnotation(DeleteMapping.class).value()[0];
         } else if (method.isAnnotationPresent(PutMapping.class)) {
-            return "PUT" + method.getAnnotation(PutMapping.class).value()[0];
+            ans = "PUT" + method.getAnnotation(PutMapping.class).value()[0];
         }
-        
-        return "";
+        if (ans == null) {
+            return ans;
+        }
+        return ans.replaceAll("\\{[^}]*\\}", dummy);
+    }
+
+    private String generateAndValidateConcats(List<String> list, String prev, int i) {
+        if (i == list.size()) {
+            return authPolicyMap.containsKey(prev) ? prev : null;
+        }
+        String left = generateAndValidateConcats(list, prev + "/" + dummy, i + 1);
+        String right = generateAndValidateConcats(list, prev + "/" + list.get(i), i + 1);
+        if (left != null) {
+            return left;
+        }
+        if (right != null) {
+            return right;
+        }
+        return null;
     }
 
     private String makePath(HttpServletRequest request) {
-        return request.getMethod() + request.getServletPath();
+        String path = request.getServletPath();
+        ArrayList<String> splitted = new ArrayList<>(Arrays.asList(path.split("/")));
+        splitted.remove(0);
+        return generateAndValidateConcats(splitted, request.getMethod(), 0);
     }
 }

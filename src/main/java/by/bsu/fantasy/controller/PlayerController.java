@@ -19,7 +19,7 @@ public class PlayerController {
         this.playerService = playerService;
     }
     
-    @SetAuthPolicy(policy = AuthPolicy.BASIC_USER)
+    @SetAuthPolicy(policy = AuthPolicy.USER)
     @GetMapping("/players")
     public List<PlayerDTO> getPlayers() {
         return playerService.getPlayers()
@@ -28,7 +28,7 @@ public class PlayerController {
                 .toList();
     }
 
-    @SetAuthPolicy(policy = AuthPolicy.BASIC_USER)
+    @SetAuthPolicy(policy = AuthPolicy.USER)
     @GetMapping("/player/{id}")
     public PlayerDTO getPlayerById(@PathVariable Long id) {
         return DtoMappingUtil.convert(

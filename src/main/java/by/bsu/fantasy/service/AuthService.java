@@ -1,6 +1,9 @@
 package by.bsu.fantasy.service;
 
 import by.bsu.fantasy.model.AuthRequest;
+
+import java.util.HashSet;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.web.csrf.CsrfToken;
@@ -37,6 +40,11 @@ public class AuthService {
     }
 
     public ResponseEntity<User> loginUser(String login, String password) {
+        // for (User el : userRepository.findAll()) {
+        //     el.setTokens(new HashSet<>());
+        //     userRepository.save(el);
+        // }
+
         User response = null;
         try {
             response = userService.getUserByUsername(login);
@@ -46,7 +54,9 @@ public class AuthService {
 
         if (passwordUtil.verify(password, response.getPassword())) {
             CsrfToken token = jwtTokenRepository.generateToken(login);
-            response.setToken(token.getToken());
+            HashSet<String> tokens = response.getTokens();
+            tokens.add(token.getToken());
+            response.setTokens(tokens);
             userRepository.save(response);
             MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
             return jwtTokenRepository.saveToken(token, new ResponseEntity<>(response, headers, HttpStatus.OK));

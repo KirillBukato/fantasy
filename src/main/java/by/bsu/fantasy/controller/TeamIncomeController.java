@@ -20,7 +20,7 @@ public class TeamIncomeController {
         this.teamIncomeService = teamIncomeService;
     }
 
-    @SetAuthPolicy(policy = AuthPolicy.BASIC_USER)
+    @SetAuthPolicy(policy = AuthPolicy.USER)
     @GetMapping("/teamIncomes")
     public List<TeamIncomeDTO> getTeamIncomes() {
         return teamIncomeService.getTeamIncomes()
@@ -29,7 +29,7 @@ public class TeamIncomeController {
                 .toList();
     }
     
-    @SetAuthPolicy(policy = AuthPolicy.BASIC_USER)
+    @SetAuthPolicy(policy = AuthPolicy.USER)
     @GetMapping("/teamIncome/{id}")
     public TeamIncomeDTO getTeamIncome(@PathVariable Long id) {
         return DtoMappingUtil.convert(

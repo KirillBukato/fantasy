@@ -1,5 +1,6 @@
 package by.bsu.fantasy.model;
 
+import java.util.HashSet;
 import java.util.List;
 
 import jakarta.persistence.Column;
@@ -26,7 +27,7 @@ public class User {
     @Column(unique = true)
     private String username;
     private String password;
-    private String token;
+    private HashSet<String> tokens;
 
     private String name;
     private String role;

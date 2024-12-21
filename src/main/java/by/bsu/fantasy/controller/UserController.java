@@ -36,7 +36,7 @@ public class UserController {
         return jwtTokenRepository.sign(gen.generate(list), jwtTokenRepository.getTokenFromRequest(request));
     }
 
-    @SetAuthPolicy(policy = AuthPolicy.BASIC_USER)
+    @SetAuthPolicy(policy = AuthPolicy.USER)
     @GetMapping("/users/fromtoken")
     private ResponseEntity<UserDTO> getUserFromToken(HttpServletRequest request) {
         HttpStatus flag = null;

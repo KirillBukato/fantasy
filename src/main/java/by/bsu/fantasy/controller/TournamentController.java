@@ -20,7 +20,7 @@ public class TournamentController {
         this.tournamentService = tournamentService;
     }
 
-    @SetAuthPolicy(policy = AuthPolicy.BASIC_USER)
+    @SetAuthPolicy(policy = AuthPolicy.USER)
     @GetMapping("/tournaments")
     public List<TournamentDTO> getTournaments() {
         return tournamentService.getTournaments()
@@ -29,7 +29,7 @@ public class TournamentController {
                 .toList();
     }
 
-    @SetAuthPolicy(policy = AuthPolicy.BASIC_USER)
+    @SetAuthPolicy(policy = AuthPolicy.USER)
     @GetMapping("/tournament/{id}")
     public TournamentDTO getTournament(@PathVariable Long id) {
         return DtoMappingUtil.convert(

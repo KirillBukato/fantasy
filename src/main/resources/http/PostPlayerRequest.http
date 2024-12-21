@@ -2,7 +2,7 @@ POST http://localhost:8080/player
 Accept: application/json
 Content-Type: application/json
 x-csrf-token: _csrf
-_csrf: eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiJiN2RhOTI2Yzk3MDU0MzlkYjlmNjQ3OTBlYWEwNjI4MyIsInN1YiI6InZhZHppbSIsImlhdCI6MTczMzM5NjQ4MSwibmJmIjoxNzMzMzk2NDgxLCJleHAiOjE3MzMzOTgyODF9.m1G24gllNT8KbbF0DoSxmAZhPQj6iIuuAEFyEiKO8Zw
+_csrf: eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiIyOTNlZGU4YTBmY2Y0NmJiYTEzZjZhODEzYzY3YjRmNyIsInN1YiI6ImtpcmlsbDE4IiwiaWF0IjoxNzM0Nzc0NDQ5LCJuYmYiOjE3MzQ3NzQ0NDksImV4cCI6MTczNDc3NjI0OX0.ON6baZmpA7C4l55ATSRyOm4HQrYFgAJh-4b2VN4tPXY
 
 {
   "name": "oleg",

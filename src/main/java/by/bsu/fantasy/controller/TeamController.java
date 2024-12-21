@@ -19,7 +19,7 @@ public class TeamController {
         this.teamService = teamService;
     }
 
-    @SetAuthPolicy(policy = AuthPolicy.BASIC_USER)
+    @SetAuthPolicy(policy = AuthPolicy.USER)
     @GetMapping("/teams")
     public List<TeamDTO> getTeams() {
         return teamService.getTeams()
@@ -28,7 +28,7 @@ public class TeamController {
                 .toList();
     }
 
-    @SetAuthPolicy(policy = AuthPolicy.BASIC_USER)
+    @SetAuthPolicy(policy = AuthPolicy.USER)
     @GetMapping("/team/{id}")
     public TeamDTO getTeamById(@PathVariable Long id) {
         return DtoMappingUtil.convert(

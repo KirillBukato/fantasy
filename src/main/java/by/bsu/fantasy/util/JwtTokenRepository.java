@@ -1,6 +1,7 @@
 package by.bsu.fantasy.util;
 
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Objects;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -88,6 +89,11 @@ public class JwtTokenRepository {
         }
     }
 
+    public User getUserFromRequest(HttpServletRequest authRequest) {
+        HttpStatus unused = HttpStatus.OK;
+        return getUserFromRequest(authRequest, unused);
+    }
+
     public User getAuthentificatedUserFromToken(String token) {
         Claims claims = Jwts.parserBuilder()
             .setSigningKey(JwtTokenRepository.getSecret())
@@ -141,7 +147,9 @@ public class JwtTokenRepository {
         }
         CsrfToken csrfToken = generateToken(getAuthentificatedUserFromToken(token).getUsername());
         User user = getAuthentificatedUserFromToken(token);
-        user.setToken(csrfToken.getToken());
+        HashSet<String> tokens = user.getTokens();
+        tokens.add(csrfToken.getToken());
+        user.setTokens(tokens);
         userRepository.save(user);
         return saveToken(csrfToken, response);
     }
@@ -152,7 +160,9 @@ public class JwtTokenRepository {
         }
         CsrfToken csrfToken = generateToken(getAuthentificatedUserFromToken(token).getUsername());
         User user = getAuthentificatedUserFromToken(token);
-        user.setToken(csrfToken.getToken());
+        HashSet<String> tokens = user.getTokens();
+        tokens.add(csrfToken.getToken());
+        user.setTokens(tokens);
         userRepository.save(user);
         return saveToken(csrfToken, gen.generate(response));
     }
