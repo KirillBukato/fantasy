@@ -11,11 +11,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
+import by.bsu.fantasy.dto.UserDTO;
 import by.bsu.fantasy.exceptions.LoginFailedException;
 import by.bsu.fantasy.model.User;
 import by.bsu.fantasy.repository.UserRepository;
 import by.bsu.fantasy.util.JwtTokenRepository;
 import by.bsu.fantasy.util.PasswordUtil;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
 
 @Service
@@ -41,7 +43,7 @@ public class AuthService {
 
     public ResponseEntity<User> loginUser(String login, String password) {
         // for (User el : userRepository.findAll()) {
-        //     el.setTokens(new HashSet<>());
+        //     el.setBlockedTokens(new HashSet<>());
         //     userRepository.save(el);
         // }
 
@@ -54,13 +56,23 @@ public class AuthService {
 
         if (passwordUtil.verify(password, response.getPassword())) {
             CsrfToken token = jwtTokenRepository.generateToken(login);
-            HashSet<String> tokens = response.getTokens();
-            tokens.add(token.getToken());
-            response.setTokens(tokens);
             userRepository.save(response);
             MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
             return jwtTokenRepository.saveToken(token, new ResponseEntity<>(response, headers, HttpStatus.OK));
         }
         return new ResponseEntity<>(null, null, HttpStatus.UNAUTHORIZED);
+    }
+
+    public ResponseEntity<UserDTO> logoutUser(HttpServletRequest request) {
+        HttpStatus status = HttpStatus.OK;
+        User user = jwtTokenRepository.getUserFromRequest(request, status);
+        if (status != HttpStatus.OK) {
+            return new ResponseEntity<>(status);
+        }
+        HashSet<String> tokens = user.getBlockedTokens();
+        tokens.add(jwtTokenRepository.getTokenFromRequest(request));
+        user.setBlockedTokens(tokens);
+        userRepository.save(user);
+        return new ResponseEntity<>(status);
     }
 }

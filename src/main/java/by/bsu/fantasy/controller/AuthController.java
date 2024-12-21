@@ -5,8 +5,11 @@ import by.bsu.fantasy.dto.UserDTO;
 import by.bsu.fantasy.util.AuthPolicy;
 import by.bsu.fantasy.util.DtoMappingUtil;
 import by.bsu.fantasy.util.SetAuthPolicy;
+import jakarta.servlet.http.HttpServletRequest;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -34,5 +37,12 @@ public class AuthController {
     public ResponseEntity<UserDTO> loginUser(@RequestBody AuthRequest authRequest) {
         ResponseEntity<User> response = authService.loginUser(authRequest.getLogin(), authRequest.getPassword());
         return new ResponseEntity<>(DtoMappingUtil.convert(response.getBody()), response.getHeaders(), response.getStatusCode());
+    }
+
+    @SetAuthPolicy(policy = AuthPolicy.USER)
+    @GetMapping("/user/logout")
+    public ResponseEntity<UserDTO> logoutUser(HttpServletRequest request) {
+
+        return authService.logoutUser(request);
     }
 }

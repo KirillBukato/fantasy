@@ -27,7 +27,7 @@ public class User {
     @Column(unique = true)
     private String username;
     private String password;
-    private HashSet<String> tokens;
+    private HashSet<String> blockedTokens;
 
     private String name;
     private String role;

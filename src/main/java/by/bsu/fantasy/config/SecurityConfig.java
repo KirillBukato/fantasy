@@ -37,6 +37,7 @@ public class SecurityConfig {
         @Override
         public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException accessDeniedException)
             throws IOException, ServletException {
+                accessDeniedException.printStackTrace();
             response.sendError(HttpServletResponse.SC_FORBIDDEN, "Access Denied");
         }
     }

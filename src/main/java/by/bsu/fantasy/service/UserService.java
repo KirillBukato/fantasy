@@ -3,7 +3,6 @@ package by.bsu.fantasy.service;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import org.springframework.stereotype.Service;
 
@@ -23,7 +22,7 @@ public class UserService {
         newRecord.setUsername(login);
         newRecord.setPassword(passw);
         newRecord.setRole(role);
-        newRecord.setTokens(new HashSet<>(Set.of(token)));
+        newRecord.setBlockedTokens(new HashSet<>());
         newRecord.setName(name);
 
         newRecord.setPicks(new ArrayList<>());
