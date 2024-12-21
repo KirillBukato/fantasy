@@ -11,7 +11,7 @@ public class PickNotFoundAdvice {
 
     @ExceptionHandler(PickNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public String userNotFound(PickNotFoundException ex) {
+    public String pickNotFound(PickNotFoundException ex) {
         return ex.getMessage();
     }
 }

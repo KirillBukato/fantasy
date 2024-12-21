@@ -38,8 +38,11 @@ public class PickTeamService {
         Pick pick = pickService.getPickById(pickId);
         Team team = teamService.getTeamById(teamId);
 
-        pick.setBalance(pick.getBalance() + team.getPrice());
-        pick.getTeams().remove(team);
+        if (pick.getTeams().contains(team)) {
+            pick.setBalance(pick.getBalance() + team.getPrice());
+            pick.getTeams().remove(team);
+        }
+
         return pickService.updatePick(pickId, pick);
     }
 

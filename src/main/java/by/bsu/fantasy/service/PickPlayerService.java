@@ -40,8 +40,11 @@ public class PickPlayerService {
         Pick pick = pickService.getPickById(pickId);
         Player player = playerService.getPlayerById(playerId);
 
-        pick.setBalance(pick.getBalance() + player.getPrice());
-        pick.getPlayers().remove(player);
+        if (pick.getPlayers().contains(player)) {
+            pick.setBalance(pick.getBalance() + player.getPrice());
+            pick.getPlayers().remove(player);
+        }
+
         return pickService.updatePick(pickId, pick);
     }
 }

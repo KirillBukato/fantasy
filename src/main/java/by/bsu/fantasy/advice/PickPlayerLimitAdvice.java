@@ -5,11 +5,13 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 import by.bsu.fantasy.exceptions.PickPlayerLimitException;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+@RestControllerAdvice
 public class PickPlayerLimitAdvice {
     @ExceptionHandler(PickPlayerLimitException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public String playerNotFound(PickPlayerLimitException ex) {
+    public String pickPlayerLimit(PickPlayerLimitException ex) {
         return ex.getMessage();
     }
 }

@@ -5,7 +5,9 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 import by.bsu.fantasy.exceptions.BadTokenException;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+@RestControllerAdvice
 public class BadTokenAdvice {
     @ExceptionHandler(BadTokenException.class)
     @ResponseStatus(HttpStatus.UNAUTHORIZED)

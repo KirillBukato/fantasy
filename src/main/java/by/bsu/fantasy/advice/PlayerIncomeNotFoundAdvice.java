@@ -11,7 +11,7 @@ public class PlayerIncomeNotFoundAdvice {
 
     @ExceptionHandler(PlayerIncomeNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public String playerNotFound(PlayerIncomeNotFoundException ex) {
+    public String playerIncomeNotFound(PlayerIncomeNotFoundException ex) {
         return ex.getMessage();
     }
 }

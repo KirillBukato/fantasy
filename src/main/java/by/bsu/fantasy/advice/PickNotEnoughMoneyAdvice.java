@@ -5,11 +5,13 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 import by.bsu.fantasy.exceptions.PickNotEnoughMoneyException;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+@RestControllerAdvice
 public class PickNotEnoughMoneyAdvice {
     @ExceptionHandler(PickNotEnoughMoneyException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public String playerNotFound(PickNotEnoughMoneyException ex) {
+    public String pickNotEnoughMoney(PickNotEnoughMoneyException ex) {
         return ex.getMessage();
     }
 }

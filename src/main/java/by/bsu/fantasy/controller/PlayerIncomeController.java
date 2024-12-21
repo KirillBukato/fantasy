@@ -45,6 +45,7 @@ public class PlayerIncomeController {
         );
     }
 
+    @SetAuthPolicy(policy = AuthPolicy.ADMIN)
     @PostMapping("/playerIncomes")
     public List<PlayerIncomeDTO> addPlayerIncomes(@RequestBody List<PlayerIncome> playerIncomes) {
         return playerIncomeService.addPlayerIncomes(playerIncomes)

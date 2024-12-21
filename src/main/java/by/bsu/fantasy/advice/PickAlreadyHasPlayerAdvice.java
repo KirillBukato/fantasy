@@ -5,12 +5,13 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 import by.bsu.fantasy.exceptions.PickAlreadyHasPlayerException;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-//TODO переименовать функции а то че они все playerNotFound
+@RestControllerAdvice
 public class PickAlreadyHasPlayerAdvice {
     @ExceptionHandler(PickAlreadyHasPlayerException.class)
     @ResponseStatus(HttpStatus.CONFLICT)
-    public String playerNotFound(PickAlreadyHasPlayerException ex) {
+    public String pickAlreadyHasPlayer(PickAlreadyHasPlayerException ex) {
         return ex.getMessage();
     }
 }
