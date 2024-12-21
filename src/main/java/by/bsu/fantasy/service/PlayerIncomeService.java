@@ -30,6 +30,11 @@ public class PlayerIncomeService {
         return playerIncomeRepository.save(playerIncome);
     }
 
+
+    public List<PlayerIncome> addPlayerIncomes(List<PlayerIncome> playerIncomes) {
+        return playerIncomeRepository.saveAll(playerIncomes);
+    }
+
     public PlayerIncome updatePlayerIncome(Long id, PlayerIncome playerIncome) {
         playerIncome.setId(id);
         return playerIncomeRepository.save(playerIncome);
@@ -38,5 +43,4 @@ public class PlayerIncomeService {
     public void deletePlayerIncome(Long id) {
         playerIncomeRepository.deleteById(id);
     }
-
 }

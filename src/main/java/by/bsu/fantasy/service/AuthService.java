@@ -1,7 +1,6 @@
 package by.bsu.fantasy.service;
 
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.stereotype.Service;
@@ -34,7 +33,7 @@ public class AuthService {
     }
 
     public ResponseEntity<User> loginUser(String login, String password) {
-        User response = null;
+        User response;
         try {
             response = userService.getUserByUsername(login);
         } catch (LoginFailedException e) {

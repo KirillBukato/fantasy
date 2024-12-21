@@ -17,18 +17,19 @@ public class UserService {
     private final PickService pickService;
 
     public User createUser(String login, String passw, String role, String token) {
+        if (getUsers().stream().anyMatch(el -> el.getUsername().equals(login)))
+        {
+            return null;
+        }
+
         User newRecord = new User();
         newRecord.setUsername(login);
         newRecord.setPassword(passw);
+        newRecord.setName(login);
         newRecord.setRole(role);
         newRecord.setToken(token);
-
         newRecord.setPicks(new ArrayList<>());
-        if (getUsers().stream()
-            .filter(el -> el.getUsername().equals(login))
-            .count() != 0) {
-                return null;
-            }
+
         User user = userRepository.save(newRecord);
         pickService.createNewPick(user);
         return user;
@@ -37,7 +38,7 @@ public class UserService {
     public User getUserByUsername(String username) {
         return userRepository
                 .findByUsername(username)
-                .orElseThrow(() -> new LoginFailedException());
+                .orElseThrow(LoginFailedException::new);
     }
 
     public List<User> getUsers() {

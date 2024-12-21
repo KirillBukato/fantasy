@@ -39,6 +39,14 @@ public class PlayerIncomeController {
         );
     }
 
+    @PostMapping("/playerIncomes")
+    public List<PlayerIncomeDTO> addPlayerIncomes(@RequestBody List<PlayerIncome> playerIncomes) {
+        return playerIncomeService.addPlayerIncomes(playerIncomes)
+                .stream()
+                .map(DtoMappingUtil::convert)
+                .toList();
+    }
+
     @PutMapping("/playerIncome/{id}")
     public PlayerIncomeDTO updatePlayerIncome(@PathVariable Long id, @RequestBody PlayerIncome playerIncome) {
         return DtoMappingUtil.convert(
