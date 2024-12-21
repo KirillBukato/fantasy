@@ -1,5 +1,6 @@
 package by.bsu.fantasy.model;
 
+import java.util.HashSet;
 import java.util.List;
 
 import jakarta.persistence.Column;
@@ -12,7 +13,6 @@ import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.ColumnDefault;
 
 @Entity
 @Data
@@ -27,7 +27,7 @@ public class User {
     @Column(unique = true)
     private String username;
     private String password;
-    private String token;
+    private HashSet<String> blockedTokens;
 
     private String name;
     private String role;

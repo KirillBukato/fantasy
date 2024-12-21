@@ -3,7 +3,10 @@ package by.bsu.fantasy.controller;
 import by.bsu.fantasy.dto.PlayerIncomeDTO;
 import by.bsu.fantasy.model.PlayerIncome;
 import by.bsu.fantasy.service.PlayerIncomeService;
+import by.bsu.fantasy.util.AuthPolicy;
 import by.bsu.fantasy.util.DtoMappingUtil;
+import by.bsu.fantasy.util.SetAuthPolicy;
+
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,6 +20,7 @@ public class PlayerIncomeController {
         this.playerIncomeService = playerIncomeService;
     }
 
+    @SetAuthPolicy(policy = AuthPolicy.USER)
     @GetMapping("/playerIncomes")
     public List<PlayerIncomeDTO> getPlayerIncomes() {
         return playerIncomeService.getPlayerIncomes()
@@ -25,6 +29,7 @@ public class PlayerIncomeController {
                 .toList();
     }
 
+    @SetAuthPolicy(policy = AuthPolicy.USER)
     @GetMapping("/playerIncome/{id}")
     public PlayerIncomeDTO getPlayerIncome(@PathVariable Long id) {
         return DtoMappingUtil.convert(
@@ -32,6 +37,7 @@ public class PlayerIncomeController {
         );
     }
 
+    @SetAuthPolicy(policy = AuthPolicy.ADMIN)
     @PostMapping("/playerIncome")
     public PlayerIncomeDTO addPlayerIncome(@RequestBody PlayerIncome playerIncome) {
         return DtoMappingUtil.convert(
@@ -47,6 +53,7 @@ public class PlayerIncomeController {
                 .toList();
     }
 
+    @SetAuthPolicy(policy = AuthPolicy.ADMIN)
     @PutMapping("/playerIncome/{id}")
     public PlayerIncomeDTO updatePlayerIncome(@PathVariable Long id, @RequestBody PlayerIncome playerIncome) {
         return DtoMappingUtil.convert(
@@ -54,6 +61,7 @@ public class PlayerIncomeController {
         );
     }
 
+    @SetAuthPolicy(policy = AuthPolicy.ADMIN)
     @DeleteMapping("/playerIncome/{id}")
     public void deletePlayerIncome(@PathVariable Long id) {
         playerIncomeService.deletePlayerIncome(id);

@@ -3,7 +3,10 @@ package by.bsu.fantasy.controller;
 import by.bsu.fantasy.dto.TeamIncomeDTO;
 import by.bsu.fantasy.model.TeamIncome;
 import by.bsu.fantasy.service.TeamIncomeService;
+import by.bsu.fantasy.util.AuthPolicy;
 import by.bsu.fantasy.util.DtoMappingUtil;
+import by.bsu.fantasy.util.SetAuthPolicy;
+
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,6 +20,7 @@ public class TeamIncomeController {
         this.teamIncomeService = teamIncomeService;
     }
 
+    @SetAuthPolicy(policy = AuthPolicy.USER)
     @GetMapping("/teamIncomes")
     public List<TeamIncomeDTO> getTeamIncomes() {
         return teamIncomeService.getTeamIncomes()
@@ -24,7 +28,8 @@ public class TeamIncomeController {
                 .map(DtoMappingUtil::convert)
                 .toList();
     }
-
+    
+    @SetAuthPolicy(policy = AuthPolicy.USER)
     @GetMapping("/teamIncome/{id}")
     public TeamIncomeDTO getTeamIncome(@PathVariable Long id) {
         return DtoMappingUtil.convert(
@@ -32,6 +37,7 @@ public class TeamIncomeController {
         );
     }
 
+    @SetAuthPolicy(policy = AuthPolicy.ADMIN)
     @PostMapping("/teamIncome")
     public TeamIncomeDTO addTeamIncome(@RequestBody TeamIncome teamIncome) {
         return DtoMappingUtil.convert(
@@ -39,6 +45,7 @@ public class TeamIncomeController {
         );
     }
 
+    @SetAuthPolicy(policy = AuthPolicy.ADMIN)
     @PutMapping("/teamIncome/{id}")
     public TeamIncomeDTO updateTeamIncome(@PathVariable Long id, @RequestBody TeamIncome teamIncome) {
         return DtoMappingUtil.convert(
@@ -46,6 +53,7 @@ public class TeamIncomeController {
         );
     }
 
+    @SetAuthPolicy(policy = AuthPolicy.ADMIN)
     @DeleteMapping("/teamIncome/{id}")
     public void deleteTeamIncome(@PathVariable Long id) {
         teamIncomeService.deleteTeamIncome(id);
