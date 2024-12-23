@@ -58,4 +58,13 @@ public class TeamIncomeController {
     public void deleteTeamIncome(@PathVariable Long id) {
         teamIncomeService.deleteTeamIncome(id);
     }
+
+    @SetAuthPolicy(policy = AuthPolicy.ADMIN)
+    @PostMapping("/teamIncomes")
+    public List<TeamIncomeDTO> addTeamIncomes(@RequestBody List<TeamIncome> teamIncomes) {
+        return teamIncomeService.addTeamIncomes(teamIncomes)
+                .stream()
+                .map(DtoMappingUtil::convert)
+                .toList();
+    }
 }

@@ -1,6 +1,7 @@
 package by.bsu.fantasy.util;
 
 public enum IncomeType {
-    A,
-    B
+    ChGK_Sum,
+    ChGK_BestInTour,
+    ChGK_CoffinSave
 }
