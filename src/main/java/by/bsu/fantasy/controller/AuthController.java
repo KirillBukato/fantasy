@@ -8,10 +8,7 @@ import by.bsu.fantasy.util.SetAuthPolicy;
 import jakarta.servlet.http.HttpServletRequest;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import by.bsu.fantasy.model.AuthRequest;
 import by.bsu.fantasy.model.User;
@@ -33,8 +30,8 @@ public class AuthController {
 
     @SetAuthPolicy(policy = AuthPolicy.ALL)
     @PostMapping("/login")
-    public ResponseEntity<UserDTO> loginUser(@RequestBody AuthRequest authRequest) {
-        ResponseEntity<User> response = authService.loginUser(authRequest.getLogin(), authRequest.getPassword());
+    public ResponseEntity<UserDTO> loginUser(@RequestParam("login") String login, @RequestParam("password") String password) {
+        ResponseEntity<User> response = authService.loginUser(login, password);
         return new ResponseEntity<>(DtoMappingUtil.convert(response.getBody()), response.getHeaders(), response.getStatusCode());
     }
 
