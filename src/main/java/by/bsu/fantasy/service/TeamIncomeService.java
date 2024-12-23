@@ -29,6 +29,10 @@ public class TeamIncomeService {
         return teamIncomeRepository.save(teamIncome);
     }
 
+    public List<TeamIncome> addTeamIncomes(List<TeamIncome> teamIncomes) {
+        return teamIncomeRepository.saveAll(teamIncomes);
+    }
+
     public TeamIncome updateTeamIncome(Long id, TeamIncome teamIncome) {
         teamIncome.setId(id);
         return teamIncomeRepository.save(teamIncome);
