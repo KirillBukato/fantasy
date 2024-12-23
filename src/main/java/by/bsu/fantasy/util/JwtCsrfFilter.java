@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
 import org.reflections.Reflections;
 import org.reflections.scanners.Scanners;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import by.bsu.fantasy.exceptions.AccessDeniedException;
 import by.bsu.fantasy.model.User;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -44,8 +46,6 @@ public class JwtCsrfFilter extends OncePerRequestFilter {
             .collect(Collectors.toMap(el -> getPath(el), el -> el.getAnnotation(SetAuthPolicy.class).policy())));
         System.err.println("AuthPolicyMap:");  // TODO: убрать это в проде
         System.err.println(authPolicyMap);
-        // Method method;
-        // method.getDeclaringClass()
     }
 
     @Override
@@ -61,12 +61,10 @@ public class JwtCsrfFilter extends OncePerRequestFilter {
             HttpStatus flag = null;
             User user = jwtTokenRepository.getUserFromRequest(request, flag);
             if (user == null) {
-                response.sendError(HttpServletResponse.SC_NOT_FOUND, "User not found or bad token.");
-                return;
+                throw new AccessDeniedException("User not found or bad token.");
             }
             if (user.getBlockedTokens().contains(jwtTokenRepository.getTokenFromRequest(request))) {
-                response.sendError(HttpServletResponse.SC_CONFLICT, "Token is banned. Try to login again.");
-                return;
+                throw new AccessDeniedException("Token is banned. Try to login again.");
             }
             AuthPolicy rights = authPolicyMap.containsKey(makePath(request)) ? authPolicyMap.get(makePath(request)) : AuthPolicy.ADMIN;
             switch (rights) {
@@ -75,25 +73,25 @@ public class JwtCsrfFilter extends OncePerRequestFilter {
                     filterChain.doFilter(request, response);
                     return;
                 } else {
-                    response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "User is unauthorized.");
-                    return;
+                    throw new AccessDeniedException("User is unauthorized.");
                 }
         
             case ADMIN:
                 if (user.getRole().equals("admin")) {
                     filterChain.doFilter(request, response);
                 } else {
-                    response.sendError(HttpServletResponse.SC_FORBIDDEN, "Insufficient access rights.");
-                    return;
+                    throw new AccessDeniedException("Insufficient access rights.");
                 }
                 break;
 
             default:
                 break;
             }
+        } catch(AccessDeniedException exc) {
+            handle(request, response, exc);
         } catch(RuntimeException e) {
             e.printStackTrace();
-            response.sendError(HttpServletResponse.SC_FORBIDDEN, "Access denied.");
+            handle(request, response, new AccessDeniedException("Access denied."));
         }
     }
 
@@ -134,5 +132,15 @@ public class JwtCsrfFilter extends OncePerRequestFilter {
         ArrayList<String> splitted = new ArrayList<>(Arrays.asList(path.split("/")));
         splitted.remove(0);
         return generateAndValidateConcats(splitted, request.getMethod(), 0);
+    }
+
+    private void handle(HttpServletRequest request, HttpServletResponse response, by.bsu.fantasy.exceptions.AccessDeniedException exc) {
+        try {
+            response.setStatus(HttpStatus.FORBIDDEN.value());
+            response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+            response.getWriter().write("{\"error\": \"" + exc.getMessage() + "\"}");
+        } catch(IOException e) {
+            e.printStackTrace();
+        }
     }
 }
