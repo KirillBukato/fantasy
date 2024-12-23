@@ -1,0 +1,15 @@
+POST http://localhost:8080/teamIncomes
+Content-Type: application/json
+x-csrf-token: _csrf
+_csrf: eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiJhMzMxZGUxNGJlYTk0ZjU1YTdmM2U1YzFlNGIwODhhMSIsInN1YiI6ImFkbWluIiwiaWF0IjoxNzM0OTY0Mjk4LCJuYmYiOjE3MzQ5NjQyOTgsImV4cCI6MTczNDk2NjA5OH0.XTGTMq33IRVSvQ73-ZLM-8-K1yA16SElvNSaQEJi1O4
+
+[
+  {
+    "amount": 10,
+    "description": "werthjhgfd",
+    "type": "ChGK_Sum",
+    "team": {
+      "id": 1
+    }
+  }
+]

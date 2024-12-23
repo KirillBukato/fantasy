@@ -1,0 +1,12 @@
+POST http://localhost:8080/teamIncome
+Content-Type: application/json
+x-csrf-token: _csrf
+_csrf: eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiJiMThmYmEyYzE1Mzk0NWQ5YjY0M2NlZGQxNGNhOTMwZiIsInN1YiI6ImFkbWluIiwiaWF0IjoxNzM0OTY3NDcyLCJuYmYiOjE3MzQ5Njc0NzIsImV4cCI6MTczNDk2OTI3Mn0.pq0petxNEesPU6cPfscIh8LBHTpS5dLvfDjPYwvw7i4
+
+{
+    "amount": 10,
+    "description": "werthjhgfd",
+    "team": {
+      "id": 1
+    }
+}
