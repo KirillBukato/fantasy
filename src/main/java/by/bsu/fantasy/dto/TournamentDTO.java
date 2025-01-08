@@ -1,5 +1,6 @@
 package by.bsu.fantasy.dto;
 
+import by.bsu.fantasy.util.TournamentStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,5 +18,8 @@ public class TournamentDTO {
     private LocalDateTime lockDateTime;
     private LocalDateTime unlockDateTime;
 
-    private List<Long> team_ids;
+    private TournamentStatus status;
+
+    private List<PlayerPerformanceDTO> playerPerformances;
+    private List<TeamPerformanceDTO> teamPerformances;
 }

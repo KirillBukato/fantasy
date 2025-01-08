@@ -14,5 +14,5 @@ public class PlayerIncomeDTO {
     private String description;
     private Integer amount;
 
-    private Long player_id;
+    private Long performanceId;
 }

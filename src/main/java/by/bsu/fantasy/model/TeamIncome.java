@@ -18,5 +18,5 @@ public class TeamIncome {
     private Integer amount;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    private Team team;
+    private TeamPerformance performance;
 }

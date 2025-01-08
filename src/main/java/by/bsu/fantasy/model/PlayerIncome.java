@@ -18,5 +18,5 @@ public class PlayerIncome {
     private Integer amount;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    private Player player;
+    private PlayerPerformance performance;
 }

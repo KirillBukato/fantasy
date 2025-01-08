@@ -58,7 +58,7 @@ public class DtoMappingUtil {
                         .stream()
                         .map(Pick::getId)
                         .collect(Collectors.toList()),
-                player.getIncomes() == null ? null : player.getIncomes()
+                player.getPerformances() == null ? null : player.getPerformances()
                         .stream()
                         .map(DtoMappingUtil::convert)
                         .toList()
@@ -82,7 +82,7 @@ public class DtoMappingUtil {
                         .stream()
                         .map(Pick::getId)
                         .collect(Collectors.toList()),
-                team.getIncomes() == null ? null : team.getIncomes()
+                team.getPerformances() == null ? null : team.getPerformances()
                         .stream()
                         .map(DtoMappingUtil::convert)
                         .toList()
@@ -98,7 +98,7 @@ public class DtoMappingUtil {
                 playerIncome.getType(),
                 playerIncome.getDescription(),
                 playerIncome.getAmount(),
-                playerIncome.getPlayer() == null ? null : playerIncome.getPlayer().getId()
+                playerIncome.getPerformance() == null ? null : playerIncome.getPerformance().getId()
         );
     }
 
@@ -111,7 +111,7 @@ public class DtoMappingUtil {
                 teamIncome.getType(),
                 teamIncome.getDescription(),
                 teamIncome.getAmount(),
-                teamIncome.getTeam() == null ? null : teamIncome.getTeam().getId()
+                teamIncome.getPerformance() == null ? null : teamIncome.getPerformance().getId()
         );
     }
 
@@ -124,10 +124,45 @@ public class DtoMappingUtil {
                 tournament.getName(),
                 tournament.getLockDateTime(),
                 tournament.getUnlockDateTime(),
-                tournament.getTeams() == null ? null : tournament.getTeams()
+                tournament.getStatus(),
+                tournament.getPlayerPerformances() == null ? null : tournament.getPlayerPerformances()
                         .stream()
-                        .map(Team::getId)
-                        .collect(Collectors.toList())
+                        .map(DtoMappingUtil::convert)
+                        .toList(),
+                tournament.getTeamPerformances() == null ? null : tournament.getTeamPerformances()
+                        .stream()
+                        .map(DtoMappingUtil::convert)
+                        .toList()
+        );
+    }
+
+    public static PlayerPerformanceDTO convert(PlayerPerformance playerPerformance) {
+        if (playerPerformance == null) {
+            return null;
+        }
+        return new PlayerPerformanceDTO(
+                playerPerformance.getId(),
+                playerPerformance.getPlayer() == null ? null : playerPerformance.getPlayer().getId(),
+                playerPerformance.getTournament() == null ? null : playerPerformance.getTournament().getId(),
+                playerPerformance.getIncomes() == null ? null : playerPerformance.getIncomes()
+                        .stream()
+                        .map(DtoMappingUtil::convert)
+                        .toList()
+        );
+    }
+
+    public static TeamPerformanceDTO convert(TeamPerformance teamPerformance) {
+        if (teamPerformance == null) {
+            return null;
+        }
+        return new TeamPerformanceDTO(
+                teamPerformance.getId(),
+                teamPerformance.getTeam() == null ? null : teamPerformance.getTeam().getId(),
+                teamPerformance.getTournament() == null ? null : teamPerformance.getTournament().getId(),
+                teamPerformance.getIncomes() == null ? null : teamPerformance.getIncomes()
+                        .stream()
+                        .map(DtoMappingUtil::convert)
+                        .toList()
         );
     }
 }

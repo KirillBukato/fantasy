@@ -19,5 +19,5 @@ public class PlayerDTO {
 
     private List<Long> pick_ids;
 
-    private List<PlayerIncomeDTO> incomes;
+    private List<PlayerPerformanceDTO> performances;
 }

@@ -18,6 +18,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @RestController
@@ -33,7 +34,7 @@ public class PickController {
         if (user == null) {
             return false;
         }
-        return user.getPicks().stream().anyMatch(el -> el.getId() == id);
+        return user.getPicks().stream().anyMatch(el -> Objects.equals(el.getId(), id));
     }
 
     @SetAuthPolicy(policy = AuthPolicy.ADMIN)

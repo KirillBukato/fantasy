@@ -16,8 +16,6 @@ public class TeamDTO {
     private Integer points;
 
     private List<PlayerDTO> players;
-
     private List<Long> pick_ids;
-
-    private List<TeamIncomeDTO> incomes;
+    private List<TeamPerformanceDTO> incomes;
 }

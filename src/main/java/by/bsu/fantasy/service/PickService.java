@@ -52,31 +52,4 @@ public class PickService {
         pickRepository.deleteById(id);
     }
 
-    public List<PlayerIncome> getPickPlayerIncomes(Long id) {
-        return getPickById(id)
-                .getPlayers()
-                .stream()
-                .flatMap(player -> player.getIncomes().stream())
-                .toList();
-    }
-
-    public List<TeamIncome> getPickTeamIncomes(Long id) {
-        return getPickById(id)
-                .getTeams()
-                .stream()
-                .flatMap(team -> team.getIncomes().stream())
-                .toList();
-    }
-
-    public Integer getPickEstimatedIncome(Long id) {
-        Integer playerSum = getPickPlayerIncomes(id)
-                .stream()
-                .mapToInt(PlayerIncome::getAmount)
-                .reduce(0, Integer::sum);
-        Integer teamSum = getPickTeamIncomes(id)
-                .stream()
-                .mapToInt(TeamIncome::getAmount)
-                .reduce(0, Integer::sum);
-        return playerSum + teamSum;
-    }
 }

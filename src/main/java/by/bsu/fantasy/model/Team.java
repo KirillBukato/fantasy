@@ -24,5 +24,5 @@ public class Team {
     private List<Pick> picks;
 
     @OneToMany(mappedBy = "team")
-    private List<TeamIncome> incomes;
+    private List<TeamPerformance> performances;
 }
